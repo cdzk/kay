@@ -1,0 +1,107 @@
+/* header 模块菜单 */
+.module_menu{
+    display: inline-block;
+    position: absolute;
+    float: left;
+    height: 100%;
+    border: none;
+}
+
+.module_menu > li{
+    display: inline-block;
+    margin-bottom: 0;
+    height: 100%;
+    border-radius: 0;
+}
+.module_menu > li a{
+    display: inline;
+    margin-right: 0;
+    height: 100%;
+    line-height: 50px;
+    border: none;
+    border-radius: 0;
+}
+.module_menu>li.active>a,
+.module_menu>li.active>a:focus,
+.module_menu>li.active>a:hover{
+    border: none;
+    border-radius: 0;
+}
+
+/* 子页面菜单 */
+.child_page_menu{}
+.child_page_menu > li{ font-size: 12px; }
+.child_page_menu > li > a{ padding: 4px 8px; }
+
+/* 表单样式 */
+.form-control{font-size: 12px;}
+.input_text{
+    padding: 2px 0;
+    margin: 0;
+    height: auto;
+    font-size: 12px;
+}
+/*.form-group label{font-size: 14px;}*/
+
+/* 表格样式 */
+.table-bordered,
+.table-bordered>thead>tr>th,
+.table-bordered>tbody>tr>th,
+.table-bordered>tfoot>tr>th,
+.table-bordered>thead>tr>td,
+.table-bordered>tbody>tr>td,
+.table-bordered>tfoot>tr>td {
+    border: 1px solid #e5e5e5;
+    vertical-align: middle;
+}
+.table_head{
+    background-color: #f7f7f9;
+}
+
+
+/* 按钮样式 */
+.btn{
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+/* 表单验证消息样式 */
+/*==========以下部分是Validform必须的===========*/
+.Validform_checktip{
+    margin-left:0px;
+    /*line-height:20px;
+    height:20px;*/
+    /*overflow:hidden;*/
+    color:#999;
+    font-size:12px;
+    font-family: \5b8b\4f53;
+}
+.Validform_right{
+    color:#71b83d;
+    padding-left:20px;
+    background:url(../img/validform/right.png) no-repeat left center;
+}
+.Validform_wrong{
+    color:#f00;
+    padding-left:20px;
+    white-space:nowrap;
+    background:url(../img/validform/error.png) no-repeat left center;
+}
+.Validform_loading{
+    padding-left:20px;
+    background:url(../img/validform/onLoad.gif) no-repeat left center;
+}
+.Validform_error{
+    border: solid 1px #f00;
+    /*background-color:#ffe7e7;*/
+    background-color: #fff5cd;
+}
+.Validform_error:focus{
+    border: solid 1px #f00;
+}
+#Validform_msg{color:#7d8289; font: 12px/1.5 tahoma, arial, \5b8b\4f53, sans-serif; width:280px; -webkit-box-shadow:2px 2px 3px #aaa; -moz-box-shadow:2px 2px 3px #aaa; background:#fff; position:absolute; top:0px; right:50px; z-index:99999; display:none;filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#999999');}
+#Validform_msg .iframe{position:absolute; left:0px; top:-1px; z-index:-1;}
+#Validform_msg .Validform_title{line-height:25px; height:25px; text-align:left; font-weight:bold; padding:0 8px; color:#fff; position:relative; background-color:#000;}
+#Validform_msg a.Validform_close:link,#Validform_msg a.Validform_close:visited{line-height:22px; position:absolute; right:8px; top:0px; color:#fff; text-decoration:none;}
+#Validform_msg a.Validform_close:hover{color:#cc0;}
+#Validform_msg .Validform_info{padding:8px;border:1px solid #000; border-top:none; text-align:left;}
