@@ -13,15 +13,13 @@ return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-    // 'hostname'        => '192.168.1.200',
-    'hostname'        => '192.168.56.1',
+    'hostname'        => \think\Env::get('database.hostname'),
     // 数据库名
     'database'        => 'yc_emis',
     // 用户名
-    'username'        => 'root',
+    'username'        => \think\Env::get('database.username'),
     // 密码
-    // 'password'        => 'yc123456',
-    'password'        => 'zk123456',
+    'password'        => \think\Env::get('database.password'),
     // 端口
     'hostport'        => '3306',
     // 连接dsn

@@ -9,10 +9,6 @@
  *
  * @File： config.php
  */
-// 自定义常量
-define('PATH_STATIC', 'http://'.$_SERVER['HTTP_HOST'].'/static/admin/');    // 静态资源目录
-define('ADMIN_TITLE', '创云EMIS管理中心');    // 管理后台页面标题
-
 
 return [
     // +----------------------------------------------------------------------
