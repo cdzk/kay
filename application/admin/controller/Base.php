@@ -12,6 +12,7 @@
 namespace app\admin\controller;
 use app\admin\model\AdminMenu;
 use think\Controller;
+use think\Request;
 
 
 class Base extends Controller {

@@ -33,12 +33,13 @@ class AdminMenu extends Model {
      * [根据父级id]获取管理菜单数据
      *
      * @param int $parent_id 管理菜单父级id
+     * @param int $status 菜单状态 默认为全部，1=显示，0=不显示
      * @return array
      */
-    public function get_menu($parent_id=null)
+    public function get_menu($parent_id=null, $status=null)
     {
         if (isset($parent_id)) $this->where('menu_parentid', $parent_id);
-        $this->where('menu_status', 1);
+        if (isset($status)) $this->where('menu_status', $status);
         $this->order('menu_sort desc, menu_id asc');
         $menu = $this->select();
         $data = array();
@@ -98,5 +99,42 @@ class AdminMenu extends Model {
                 return array('status'=>-1, 'msg'=>'数据错误', 'result'=>'');
             }
         }
+    }
+
+
+    /**
+     * sort_menu
+     * 更新菜单排序
+     *
+     * @return bool
+     */
+    public function sort_menu()
+    {
+        $form = input('post.');
+
+        // $data = array();
+        foreach ($form['menu_sort'] as $key=>$val) {
+            // $data[] = array('menu_id'=>$key, 'menu_sort'=>$val);
+            $this->where('menu_id', $key)->update(array('menu_sort'=>$val));
+        }
+
+        /*foreach($data as $val){
+            $this->data($val,true)->isUpdate(true)->save();
+        }*/
+
+        return true;
+    }
+
+    /**
+     * delete_menu
+     * 删除菜单
+     *
+     * @return int
+     */
+    public function delete_menu()
+    {
+        $menu_id = input('get.menu_id');
+
+        return $this->destroy($menu_id);
     }
 }

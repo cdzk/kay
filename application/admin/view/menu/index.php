@@ -58,7 +58,7 @@
                         </ul>
                     </div>
 
-                    <form action="">
+                    <form action="{:url('admin/Menu/sort');}">
                         <div class="box-body">
                             <div class="table-responsive">
                                 <table class="table table-condensed table-bordered table-hover">
@@ -67,6 +67,7 @@
                                         <th class="text-center" style="width: 60px;">排序</th>
                                         <th class="text-center" style="width: 60px;">菜单ID</th>
                                         <th class="text-center">菜单名称</th>
+                                        <th class="text-center" style="width: 100px;">状态</th>
                                         <th class="text-center" style="width: 200px;">操作</th>
                                     </tr>
                                     </thead>
@@ -74,18 +75,30 @@
                                     <tbody>
                                     {volist name="menu_list" id="vo"}
                                     <tr>
-                                        <td class="text-center"><input class="form-control input_text" id="menu_sort_1" name="menu_sort[]" type="text" value="{$vo.menu_sort}" style="width: 42px;text-align: center;"></td>
+                                        <td class="text-center"><input class="form-control input_text" id="menu_sort_{$vo.menu_id}" name="menu_sort[{$vo.menu_id}]" type="text" value="{$vo.menu_sort}"
+                                                                       onkeyup="this.value=this.value.replace(/\D/g,'')"
+                                                                       onafterpaste="this.value=this.value.replace(/\D/g,'')"
+                                                                       style="width: 42px;text-align: center;"></td>
                                         <td class="text-center">{$vo.menu_id}</td>
+
                                         {if condition="$vo['level'] eq 0"}
                                         <td style="font-weight: bold;">{$vo.menu_name}</td>
                                         {else/}
                                         <td>├{:str_repeat('─',$vo.level)} {$vo.menu_name}</td>
                                         {/if}
 
+                                        <td class="text-center">{switch name="vo.menu_status"}
+                                            {case value="1"}<span class="label label-success">显示</span>{/case}
+                                            {case value="0"}<span class="label label-default">不显示</span>{/case}
+                                            {/switch}</td>
+
                                         <td class="text-center">
                                             <a class="btn btn-primary" href="{:url('admin/Menu/add', ['parent_id'=>$vo.menu_id])}" role="button">添加子菜单</a>
                                             <a class="btn btn-primary" href="{:url('admin/Menu/edit', ['menu_id'=>$vo.menu_id])}" role="button">修改</a>
-                                            <a class="btn btn-primary" href="" role="button">删除</a>
+                                            <a class="btn btn-primary" href="javascript:void(0);"
+                                               data-ajax-url="{:url('admin/Menu/del')}"
+                                               onclick="ycApp.ajaxDel('menu_id={$vo.menu_id}', $(this))"
+                                               role="button">删除</a>
                                         </td>
                                     </tr>
                                     {/volist}
@@ -114,5 +127,16 @@
 <script src="{$Think.PATH_COMMON_STATIC}plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="{$Think.PATH_STATIC}bootstrap/js/bootstrap.min.js"></script>
+<!-- layer 3.0.3 -->
+<script src="{$Think.PATH_COMMON_STATIC}plugins/layer/layer.js"></script>
+
+<!-- jQuery Form 4.2.1 -->
+<script src="{$Think.PATH_COMMON_STATIC}plugins/jQueryForm/jquery.form.min.js"></script>
+
 <!-- AdminLTE App -->
 <script src="{$Think.PATH_STATIC}dist/js/yc_app.js"></script>
+<script>
+    $(function () {
+        ycApp.ajaxFormSubmit($('form'));
+    });
+</script>

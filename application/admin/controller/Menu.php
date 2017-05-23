@@ -60,6 +60,13 @@ class Menu extends Base {
         return view('menu/add');
     }
 
+    /**
+     * edit
+     * 修改菜单
+     *
+     * @param int $menu_id 菜单id
+     * @return \think\response\View
+     */
     public function edit($menu_id)
     {
         if (empty($menu_id)) exit;
@@ -71,8 +78,8 @@ class Menu extends Base {
     }
 
     /**
-     * add_save
-     * 保存新增菜单
+     * save
+     * 保存菜单数据 添加|修改
      *
      * @return mixed
      */
@@ -93,7 +100,42 @@ class Menu extends Base {
         }
     }
 
-    // TODO 菜单排序
+    /**
+     * sort
+     * 菜单排序
+     *
+     * @return \think\response\Json
+     */
+    public function sort()
+    {
+        if (!Request::instance()->isPost()) exit;
 
-    // TODO 删除菜单
+        $result = $this->menu->sort_menu();
+
+        if ($result) {
+            return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>''));
+        } else {
+            return json(array('status'=>0, 'msg'=>'操作失败', 'result'=>''));
+        }
+    }
+
+    /**
+     * del
+     * 删除菜单
+     *
+     * @return \think\response\Json
+     */
+    public function del()
+    {
+        if (!Request::instance()->isAjax()) exit;
+
+        $result = $this->menu->delete_menu();
+        if ($result) {
+            return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>''));
+        } else {
+            return json(array('status'=>0, 'msg'=>'操作失败', 'result'=>''));
+        }
+    }
+
+    // TODO 菜单状态设置
 }

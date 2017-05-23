@@ -61,8 +61,9 @@ class Index extends Base {
     {
         if (!Request::instance()->isPost()) exit;
 
+        // 获取所有允许显示的菜单数据
         $menu = new AdminMenu();
-        $result = $menu->get_menu();
+        $result = $menu->get_menu(null, 1);
 
         // 生成无限级菜单数组数据
         $tree = Tree::makeTree($result, array(

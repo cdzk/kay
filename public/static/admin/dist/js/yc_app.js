@@ -35,14 +35,19 @@ baseApp.prototype = {
      * @param url 请求地址
      * @param data 请求时需要传递的参数
      * @param dataType 返回数据类型
+     * @param beforeBackcall 请求前的回调方法
      * @param sBackcall 请求成功后的回调方法
      */
-    aReq: function (type, url, data, dataType, sBackcall) {
+    aReq: function (type, url, data, dataType, beforeBackcall, sBackcall) {
+        var beforeBackcall  =   beforeBackcall || function () {},
+            sBackcall       =   sBackcall || function () {};
+
         $.ajax({
             type: type,
             url: url,
             data: data,
             dataType: dataType,
+            beforeSend: beforeBackcall,
             success: sBackcall
         });
     },
@@ -52,7 +57,7 @@ baseApp.prototype = {
      * 获取服务器系统信息
      */
     getSysInfo: function () {
-        this.aReq('get', this.apiUrl+'ajax_sys_info', '', 'json', function (data) {
+        this.aReq('get', this.apiUrl+'ajax_sys_info', '', 'json', '', function (data) {
             $('#server-time').html(data.data.currentTimes);
             $('#server-cpu').html(data.data.cpu_usage+' <small>%</small>');
             $('#server-ram').html(data.data.mem_usage+' <small>%</small>');
@@ -97,7 +102,7 @@ baseApp.prototype = {
         var menuParentId = currentObj.attr('data-id'); // 获取菜单父级id
 
         // 获取管理后台左侧菜单数据，并加载左侧边栏
-        this.aReq('post', this.apiUrl+'ajax_admin_menu/'+menuParentId, {menu_parentid:menuParentId}, '', function (data) {
+        this.aReq('post', this.apiUrl+'ajax_admin_menu/'+menuParentId, {menu_parentid:menuParentId}, '', '', function (data) {
             _this.adminMenuLeftUl.html(data);
         });
     },
@@ -119,7 +124,7 @@ baseApp.prototype = {
         }
         setMsgStyle();
 
-        var waitLoad;
+        var waitLoad; // 等待动画调用变量
         $('form').Validform({
             tiptype: function(msg,o,cssctl){
                 setMsgStyle();
@@ -152,7 +157,8 @@ baseApp.prototype = {
             callback: function (d) {
                 layer.close(waitLoad);
                 layer.msg(d['msg']);
-                if (d['status']) window.location.href = d['result']['backUrl'];
+                if (d['status'])
+                    window.location.href = d['result']['backUrl'];
             }
         });
     },
@@ -161,24 +167,20 @@ baseApp.prototype = {
      * ajax方式提交表单
      * @param formObj 表单对象
      */
-    /*ajaxFormSubmit: function (formObj) {
-        var waitLoad;
+    ajaxFormSubmit: function (formObj) {
+        var waitLoad; // 等待动画调用变量
         formObj.ajaxForm({
             type: 'POST',
-            //url: $(this).attr('action'),
+            url: $(this).attr('action'),
             data: $(this).serialize(),
             dataType: 'json',
             beforeSubmit:function(){
-
                 waitLoad = layer.load(1, {
                     shade: [0.5,'#000']
                 });
             },
             success: function (result) {
                 layer.close(waitLoad);
-
-                console.log(result);
-
                 layer.msg(result['msg']);
             },
             error: function () {
@@ -186,7 +188,33 @@ baseApp.prototype = {
             }
         });
         return false;
-    }*/
+    },
+
+    /**
+     * ajax方式删除数据
+     * @param data 提交参数
+     * @param obj 需要删除的dom对象
+     */
+    ajaxDel: function (data, obj) {
+        var waitLoad; // 等待动画调用变量
+
+        this.aReq('get', obj.attr('data-ajax-url'), data, 'json',
+            function () {
+                waitLoad = layer.load(1, {
+                    shade: [0.5,'#000']
+                });
+            },
+            function (d) {
+                layer.close(waitLoad);
+                layer.msg(d['msg']);
+
+                if (d['status'])
+                    obj.parent().parent()
+                        .fadeOut(500, function () {
+                            obj.remove()
+                    });
+        });
+    }
 };
 
 var ycApp = new baseApp();
