@@ -55,7 +55,7 @@ class Tree{
     private static function buildData($data,$options){
         $config = array_merge(self::$config,$options);
         self::$config = $config;
-        extract($config);
+        extract($config, EXTR_SKIP);
 
         $r = array();
         foreach($data as $item){
@@ -70,7 +70,7 @@ class Tree{
     /* 生成树核心, 私有方法  */
     private static function makeTreeCore($index,$data,$type='linear')
     {
-        extract(self::$config);
+        extract(self::$config, EXTR_SKIP);
 
         // 解决当没有数据时 “未定义下标0” 的问题
         if (!array_key_exists(0, $data)) return false;
