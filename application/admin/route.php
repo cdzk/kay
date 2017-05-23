@@ -14,7 +14,8 @@ Route::group('admin/menu',[
     'edit/:menu_id' => ['admin/Menu/edit', [], ['parent_id'=>'\d+']],   // 编辑菜单
     'save' => ['admin/Menu/save', ['method' => 'post']],                // 保存菜单数据
     'sort' => ['admin/Menu/sort', ['method' => 'post']],                // 菜单排序
-    'del' => ['admin/Menu/del', ['method' => 'get']]                    // 删除菜单
+    'del' => ['admin/Menu/del', ['method' => 'get']],                   // 删除菜单
+    'status' => ['admin/Menu/status', ['method' => 'post']]             // 设置菜单状态
 ]);
 
 // ajax请求

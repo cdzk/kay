@@ -74,7 +74,7 @@ class AdminMenu extends Model {
         $form = input('post.');
 
         // 验证表单
-        if(!$this->validate->check($form)) return json(array('status'=>-1, 'msg'=>'数据错误', 'result'=>'')); // $this->validate->getError();
+        if(!$this->validate->check($form)) return array('status'=>-1, 'msg'=>'数据错误，请重试', 'result'=>''); // $this->validate->getError();
 
         $data = array(
             'menu_parentid' => $form['menu_parentid'],
@@ -96,7 +96,7 @@ class AdminMenu extends Model {
             if ($isExist) {
                 return $this->where('menu_id', $menu_id)->update($data);
             } else {
-                return array('status'=>-1, 'msg'=>'数据错误', 'result'=>'');
+                return array('status'=>-1, 'msg'=>'数据错误，请重试', 'result'=>'');
             }
         }
     }
@@ -135,6 +135,20 @@ class AdminMenu extends Model {
     {
         $menu_id = input('get.menu_id');
 
-        return $this->destroy($menu_id);
+        $isExist = $this->where('menu_parentid', $menu_id)->count();
+
+        if ($isExist) {
+            return array('status'=>-1, 'msg'=>'抱歉，请先删除子菜单', 'result'=>'');
+        } else {
+            return $this->destroy($menu_id);
+        }
+    }
+
+    public function status_menu()
+    {
+        $menu_id = input('post.menu_id');
+        $menu_status = input('post.menu_status');
+
+        return $this->where('menu_id', $menu_id)->update(array('menu_status'=>$menu_status));
     }
 }

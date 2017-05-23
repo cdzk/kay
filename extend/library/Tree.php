@@ -71,6 +71,10 @@ class Tree{
     private static function makeTreeCore($index,$data,$type='linear')
     {
         extract(self::$config);
+
+        // 解决当没有数据时 “未定义下标0” 的问题
+        if (!array_key_exists(0, $data)) return false;
+
         foreach($data[$index] as $id=>$item)
         {
             if($type=='normal'){

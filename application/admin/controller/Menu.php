@@ -25,6 +25,7 @@ class Menu extends Base {
         // 获取所有菜单数据
         $this->menu = new AdminMenu();
         $menu_data = $this->menu->get_menu();
+
         // 生成无限级菜单数组数据
         $this->menu_tree = Tree::makeTreeForHtml($menu_data, array(
             'primary_key' => 'menu_id',
@@ -91,7 +92,7 @@ class Menu extends Base {
 
         if (!is_array($result)) {
             if ($result) {
-                return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>array('backUrl'=>url('admin/Menu/index'))));
+                return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>array('jumpUrl'=>url('admin/Menu/index'))));
             } else {
                 return json(array('status'=>0, 'msg'=>'操作失败', 'result'=>''));
             }
@@ -113,7 +114,7 @@ class Menu extends Base {
         $result = $this->menu->sort_menu();
 
         if ($result) {
-            return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>''));
+            return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>array('jumpUrl'=>$_SERVER['HTTP_REFERER'])));
         } else {
             return json(array('status'=>0, 'msg'=>'操作失败', 'result'=>''));
         }
@@ -130,12 +131,34 @@ class Menu extends Base {
         if (!Request::instance()->isAjax()) exit;
 
         $result = $this->menu->delete_menu();
+
+        if (!is_array($result)) {
+            if ($result) {
+                return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>''));
+            } else {
+                return json(array('status'=>0, 'msg'=>'操作失败', 'result'=>''));
+            }
+        } else {
+            return json($result);
+        }
+    }
+
+    /**
+     * status
+     * 设置菜单状态
+     *
+     * @return \think\response\Json
+     */
+    public function status()
+    {
+        if (!Request::instance()->isAjax()) exit;
+
+        $result = $this->menu->status_menu();
+
         if ($result) {
             return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>''));
         } else {
             return json(array('status'=>0, 'msg'=>'操作失败', 'result'=>''));
         }
     }
-
-    // TODO 菜单状态设置
 }

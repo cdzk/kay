@@ -23,7 +23,8 @@ baseApp.prototype = {
 
         // 管理后台菜单 顶部菜单操作事件
         this.adminMenuHeaderLi.on('click', function (event) {
-            _this.getAdminMenu($(this));
+            var $this = $(this);
+            _this.getAdminMenu($this);
         });
     },
 
@@ -69,9 +70,9 @@ baseApp.prototype = {
      * 设置管理后台 main区域高度
      */
     setMainHeight: function () {
-        var winHeight = $(window).height();
+        var $winHeight = $(window).height();
         this.mainWrapper.css({
-            'min-height':winHeight-56
+            'min-height': $winHeight-56
         });
     },
 
@@ -79,8 +80,8 @@ baseApp.prototype = {
      * 设置管理后台 iframe 高度
      */
     iframeHeight: function () {
-        var body = $('.content-wrapper').height();
-        $('#main').css('height', body+5);
+        var $body = $('.content-wrapper').height();
+        $('#main').css('height', $body+5);
     },
 
     /**
@@ -99,10 +100,10 @@ baseApp.prototype = {
             .siblings()
             .removeClass('active');
 
-        var menuParentId = currentObj.attr('data-id'); // 获取菜单父级id
+        var _menuParentId = currentObj.attr('data-id'); // 获取菜单父级id
 
         // 获取管理后台左侧菜单数据，并加载左侧边栏
-        this.aReq('post', this.apiUrl+'ajax_admin_menu/'+menuParentId, {menu_parentid:menuParentId}, '', '', function (data) {
+        this.aReq('post', this.apiUrl+'ajax_admin_menu/'+_menuParentId, {menu_parentid:_menuParentId}, '', '', function (data) {
             _this.adminMenuLeftUl.html(data);
         });
     },
@@ -113,8 +114,8 @@ baseApp.prototype = {
     initValidator: function () {
         // 判断表单验证提示信息容器是否有内容，并进行样式调整
         function setMsgStyle() {
-            var msgBox = $('.Validform_checktip');
-            msgBox.each(function (i, v) {
+            var $msgBox = $('.Validform_checktip');
+            $msgBox.each(function (i, v) {
                 if ($(v).html() !== '') {
                     $(v).css({
                         'margin-top': '5px'
@@ -157,8 +158,14 @@ baseApp.prototype = {
             callback: function (d) {
                 layer.close(waitLoad);
                 layer.msg(d['msg']);
-                if (d['status'])
-                    window.location.href = d['result']['backUrl'];
+
+                if (d['status']>=1) {
+                    if (typeof d['result']['jumpUrl'] !== 'undefined') { // 判断是否有跳转url地址存在，有则执行跳转
+                        setTimeout(function () {
+                            window.location.href = d['result']['jumpUrl'];
+                        }, 1500);
+                    }
+                }
             }
         });
     },
@@ -179,9 +186,17 @@ baseApp.prototype = {
                     shade: [0.5,'#000']
                 });
             },
-            success: function (result) {
+            success: function (d) {
                 layer.close(waitLoad);
-                layer.msg(result['msg']);
+                layer.msg(d['msg']);
+
+                if (d['status']>=1) {
+                    if (typeof d['result']['jumpUrl'] !== 'undefined') { // 判断是否有跳转url地址存在，有则执行跳转
+                        setTimeout(function () {
+                            window.location.href = d['result']['jumpUrl'];
+                        }, 1500);
+                    }
+                }
             },
             error: function () {
 
@@ -192,13 +207,16 @@ baseApp.prototype = {
 
     /**
      * ajax方式删除数据
+     * @param url 请求url地址
      * @param data 提交参数
-     * @param obj 需要删除的dom对象
      */
-    ajaxDel: function (data, obj) {
+    ajaxDel: function (url, data) {
+        var _this = event.toElement, // 获取事件对象
+            $this = $(_this); // 转换为jq对象
+
         var waitLoad; // 等待动画调用变量
 
-        this.aReq('get', obj.attr('data-ajax-url'), data, 'json',
+        this.aReq('get', url, data, 'json',
             function () {
                 waitLoad = layer.load(1, {
                     shade: [0.5,'#000']
@@ -208,10 +226,10 @@ baseApp.prototype = {
                 layer.close(waitLoad);
                 layer.msg(d['msg']);
 
-                if (d['status'])
-                    obj.parent().parent()
-                        .fadeOut(500, function () {
-                            obj.remove()
+                if (d['status']>=1)
+                    // 请求成功后移除事件对象所在tr
+                    $this.parent().parent().fadeOut(500, function () {
+                        $this.remove();
                     });
         });
     }

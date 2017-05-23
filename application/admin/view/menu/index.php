@@ -88,16 +88,15 @@
                                         {/if}
 
                                         <td class="text-center">{switch name="vo.menu_status"}
-                                            {case value="1"}<span class="label label-success">显示</span>{/case}
-                                            {case value="0"}<span class="label label-default">不显示</span>{/case}
+                                            {case value="1"}<a class="btn btn-success" href="javascript:void(0);" role="button" onclick="setStatus({$vo.menu_id}, 0);">显示</a>{/case}
+                                            {case value="0"}<a class="btn btn-default" href="javascript:void(0);" role="button" onclick="setStatus({$vo.menu_id}, 1);">隐藏</a>{/case}
                                             {/switch}</td>
 
                                         <td class="text-center">
                                             <a class="btn btn-primary" href="{:url('admin/Menu/add', ['parent_id'=>$vo.menu_id])}" role="button">添加子菜单</a>
                                             <a class="btn btn-primary" href="{:url('admin/Menu/edit', ['menu_id'=>$vo.menu_id])}" role="button">修改</a>
                                             <a class="btn btn-primary" href="javascript:void(0);"
-                                               data-ajax-url="{:url('admin/Menu/del')}"
-                                               onclick="ycApp.ajaxDel('menu_id={$vo.menu_id}', $(this))"
+                                               onclick="ycApp.ajaxDel('{:url('admin/Menu/del')}', 'menu_id={$vo.menu_id}')"
                                                role="button">删除</a>
                                         </td>
                                     </tr>
@@ -139,4 +138,39 @@
     $(function () {
         ycApp.ajaxFormSubmit($('form'));
     });
+
+    /**
+     * 设置菜单状态
+     * @param menu_id 菜单id
+     * @param menu_status 状态码
+     */
+    function setStatus(menu_id, menu_status) {
+        var _this = event.toElement,
+            $this = $(_this),
+            str='';
+        var status = function () {
+            switch (menu_status) {
+                case 0:
+                    str = '<a class="btn btn-default" href="javascript:void(0);" role="button" onclick="setStatus('+ menu_id +', 1);">隐藏</a>';
+                    break;
+                case 1:
+                    str = '<a class="btn btn-success" href="javascript:void(0);" role="button" onclick="setStatus('+ menu_id +', 0);">显示</a>';
+                    break;
+            }
+            $this.parent().html(str);
+        };
+
+        var waitLoad; // 等待动画调用变量
+        ycApp.aReq('post', '{:url('admin/Menu/status')}', {menu_id:menu_id, menu_status:menu_status}, 'json',
+            function () {
+                waitLoad = layer.load(1, {
+                    shade: [0.5,'#000']
+                });
+            },
+            function (d) {
+                layer.close(waitLoad);
+                layer.msg(d['msg']);
+                if (d['status']) status();
+            });
+    }
 </script>
