@@ -144,6 +144,12 @@ class AdminMenu extends Model {
         }
     }
 
+    /**
+     * status_menu
+     * 更新菜单状态
+     *
+     * @return $this
+     */
     public function status_menu()
     {
         $menu_id = input('post.menu_id');
