@@ -11,19 +11,15 @@
  */
 
 namespace app\admin\model;
-use think\Config;
 use think\Loader;
 use think\Model;
 
-class AdminMenu extends Model {
+class Admin_menu extends Model {
 
     protected function initialize()
     {
-        // 指定表名
-        $this->table = Config::get('database.prefix').'admin_menu';
-
         // 加载验证器
-        $this->validate = Loader::validate('Admin_menu');
+        $this->validate = Loader::validate('AdminMenu');
 
         parent::initialize();
     }

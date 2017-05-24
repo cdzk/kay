@@ -12,7 +12,7 @@
 
 namespace app\admin\controller;
 
-use app\admin\model\AdminMenu;
+use app\admin\model\Admin_menu;
 use library\Tree;
 use think\Request;
 
@@ -23,7 +23,7 @@ class Menu extends Base {
     public function _initialize()
     {
         // 获取所有菜单数据
-        $this->menu = new AdminMenu();
+        $this->menu = new Admin_menu();
         $menu_data = $this->menu->get_menu();
 
         // 生成无限级菜单数组数据
@@ -51,6 +51,7 @@ class Menu extends Base {
      * add
      * 添加菜单
      *
+     * @param int $parent_id 父级菜单id 有值时表示添加子菜单
      * @return \think\response\View
      */
     public function add($parent_id=null)

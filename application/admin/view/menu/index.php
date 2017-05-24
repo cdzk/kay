@@ -65,7 +65,7 @@
                                     <thead class="table_head">
                                     <tr>
                                         <th class="text-center" style="width: 60px;">排序</th>
-                                        <th class="text-center" style="width: 60px;">菜单ID</th>
+                                        <th class="text-center" style="width: 60px;">ID</th>
                                         <th class="text-center">菜单名称</th>
                                         <th class="text-center" style="width: 100px;">状态</th>
                                         <th class="text-center" style="width: 200px;">操作</th>
