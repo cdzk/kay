@@ -16,6 +16,9 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="//cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css">
 
+    <!-- jquery-treegrid style -->
+    <link rel="stylesheet" href="{$Think.PATH_STATIC}plugins/jquery-treegrid/css/jquery.treegrid.css">
+
     <!-- Theme style -->
     <link rel="stylesheet" href="{$Think.PATH_STATIC}dist/css/AdminLTE.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -61,7 +64,7 @@
                     <form action="{:url('admin/Menu/sort');}">
                         <div class="box-body">
                             <div class="table-responsive">
-                                <table class="table table-condensed table-bordered table-hover">
+                                <table class="table table-condensed table-bordered table-hover tree">
                                     <thead class="table_head">
                                     <tr>
                                         <th class="text-center" style="width: 60px;">ID</th>
@@ -75,7 +78,7 @@
 
                                     <tbody>
                                     {volist name="auth_list" id="vo"}
-                                    <tr>
+                                    <tr class="treegrid-{$vo.auth_id} {$vo.level ?= ' treegrid-parent-'.$vo.auth_parentid}">
                                         <td class="text-center">{$vo.auth_id}</td>
 
                                         {if condition="$vo['level'] eq 0"}
@@ -120,5 +123,14 @@
 <!-- layer 3.0.3 -->
 <script src="{$Think.PATH_COMMON_STATIC}plugins/layer/layer.js"></script>
 
+<!-- jquery-treegrid 0.3.0 -->
+<script src="{$Think.PATH_STATIC}plugins/jquery-treegrid/js/jquery.treegrid.js"></script>
+<script src="{$Think.PATH_STATIC}plugins/jquery-treegrid/js/jquery.treegrid.bootstrap3.js"></script>
+
 <!-- AdminLTE App -->
 <script src="{$Think.PATH_STATIC}dist/js/yc_app.js"></script>
+<script>
+    $(function () {
+        ycApp.treeTable(2);
+    });
+</script>

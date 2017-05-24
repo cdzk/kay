@@ -16,6 +16,9 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="//cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css">
 
+    <!-- jquery-treegrid style -->
+    <link rel="stylesheet" href="{$Think.PATH_STATIC}plugins/jquery-treegrid/css/jquery.treegrid.css">
+
     <!-- Theme style -->
     <link rel="stylesheet" href="{$Think.PATH_STATIC}dist/css/AdminLTE.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -61,7 +64,7 @@
                     <form action="{:url('admin/Menu/sort');}">
                         <div class="box-body">
                             <div class="table-responsive">
-                                <table class="table table-condensed table-bordered table-hover">
+                                <table class="table table-condensed table-bordered table-hover tree">
                                     <thead class="table_head">
                                     <tr>
                                         <th class="text-center" style="width: 60px;">排序</th>
@@ -74,7 +77,7 @@
 
                                     <tbody>
                                     {volist name="menu_list" id="vo"}
-                                    <tr>
+                                    <tr class="treegrid-{$vo.menu_id} {$vo.level ?= ' treegrid-parent-'.$vo.menu_parentid}">
                                         <td class="text-center"><input class="form-control input_text" id="menu_sort_{$vo.menu_id}" name="menu_sort[{$vo.menu_id}]" type="text" value="{$vo.menu_sort}"
                                                                        onkeyup="this.value=this.value.replace(/\D/g,'')"
                                                                        onafterpaste="this.value=this.value.replace(/\D/g,'')"
@@ -129,6 +132,9 @@
 <!-- layer 3.0.3 -->
 <script src="{$Think.PATH_COMMON_STATIC}plugins/layer/layer.js"></script>
 
+<!-- jquery-treegrid 0.3.0 -->
+<script src="{$Think.PATH_STATIC}plugins/jquery-treegrid/js/jquery.treegrid.js"></script>
+<script src="{$Think.PATH_STATIC}plugins/jquery-treegrid/js/jquery.treegrid.bootstrap3.js"></script>
 <!-- jQuery Form 4.2.1 -->
 <script src="{$Think.PATH_COMMON_STATIC}plugins/jQueryForm/jquery.form.min.js"></script>
 
@@ -136,6 +142,7 @@
 <script src="{$Think.PATH_STATIC}dist/js/yc_app.js"></script>
 <script>
     $(function () {
+        ycApp.treeTable(3);
         ycApp.ajaxFormSubmit($('form'));
     });
 

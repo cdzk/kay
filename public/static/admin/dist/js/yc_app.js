@@ -34,10 +34,10 @@ baseApp.prototype = {
      *
      * @param type 请求类型
      * @param url 请求地址
-     * @param data 请求时需要传递的参数
+     * @param {object|string} data 请求时需要传递的参数
      * @param dataType 返回数据类型
-     * @param beforeBackcall 请求前的回调方法
-     * @param sBackcall 请求成功后的回调方法
+     * @param {function} beforeBackcall 请求前的回调方法
+     * @param {function} sBackcall 请求成功后的回调方法
      */
     aReq: function (type, url, data, dataType, beforeBackcall, sBackcall) {
         var beforeBackcall  =   beforeBackcall || function () {},
@@ -86,7 +86,7 @@ baseApp.prototype = {
 
     /**
      * 控制管理后台顶部菜单高亮，并获取左侧菜单数据
-     * @param currentObj
+     * @param {dom} currentObj
      */
     getAdminMenu: function (currentObj) {
         var _this = this;
@@ -109,7 +109,48 @@ baseApp.prototype = {
     },
 
     /**
+     * 可以折叠的树状目录表格插件调用
+     *
+     * @description
+     *  调用jquery.treegrid插件
+     *  引用 xxx/css/jquery.treegrid.css
+     *      xxx/js/jquery.treegrid.js
+     *      xxx/js/jquery.treegrid.bootstrap3.js
+     *
+     * @example
+     *  <!-- 需要调用插件的table，加上class tree -->
+     *  <table class="table tree">
+     *      <!-- 根目录 class treegrid-x 表示目录id -->
+     *      <tr class="treegrid-1">
+     *          <td></td>
+     *      </tr>
+     *      <!-- 子目录 class treegrid-parent-x 表示父级目录id -->
+     *      <tr class="treegrid-2 treegrid-parent-1">
+     *          <td></td>
+     *      </tr>
+     *  </table>
+     *
+     *  @param {int} column 在第几列加载折叠图标
+     */
+    treeTable: function (column) {
+        if (typeof column !== 'number' && typeof column !== 'undefined') {
+            console.warn('参数错误');
+            return false;
+        }
+        column = column||1;
+
+        $('.tree').treegrid({
+            treeColumn: column-1, // 设置在第几列显示折叠图标
+            expanderExpandedClass: 'glyphicon glyphicon-minus', // 收起图标
+            expanderCollapsedClass: 'glyphicon glyphicon-plus'  // 展开图标
+        });
+    },
+
+    /**
      * 表单验证配置初始化
+     *
+     * @description
+     *  引用 xxx/Validform_v5.3.2.js
      */
     initValidator: function () {
         // 判断表单验证提示信息容器是否有内容，并进行样式调整
@@ -172,7 +213,11 @@ baseApp.prototype = {
 
     /**
      * ajax方式提交表单
-     * @param formObj 表单对象
+     *
+     * @description
+     *  引用 xxx/jquery.form.min.js
+     *
+     * @param {dom} formObj 表单对象
      */
     ajaxFormSubmit: function (formObj) {
         var waitLoad; // 等待动画调用变量
@@ -207,8 +252,8 @@ baseApp.prototype = {
 
     /**
      * ajax方式删除数据
-     * @param url 请求url地址
-     * @param data 提交参数
+     * @param {string} url 请求url地址
+     * @param {object|string} data 提交参数
      */
     ajaxDel: function (url, data) {
         var _this = event.toElement, // 获取事件对象
