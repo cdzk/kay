@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2017-05-24 18:16:55
+Date: 2017-05-25 19:02:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -89,8 +89,9 @@ CREATE TABLE `yc_admin_user` (
   `user_login_last_area` varchar(255) DEFAULT NULL COMMENT '用户最后一次登录地区',
   `user_login_last_time` int(10) DEFAULT NULL COMMENT '用户最后一次登录时间',
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='系统用户';
 
 -- ----------------------------
 -- Records of yc_admin_user
 -- ----------------------------
+INSERT INTO `yc_admin_user` VALUES ('1', '0', 'admin', '$2a$08$WoDoUJUDsBqPlQn3fytNBOCP5JVW1AgBrvu2G9uyNGWvMoQToe.Qy', '猿创科技', 'service@i-yc.com', '13800138000', '1', '1495705635', null, null, null);

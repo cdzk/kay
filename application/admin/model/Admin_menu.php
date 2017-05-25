@@ -70,7 +70,7 @@ class Admin_menu extends Model {
         $form = input('post.');
 
         // 验证表单
-        if(!$this->validate->check($form)) return array('status'=>-1, 'msg'=>'数据错误，请重试', 'result'=>''); // $this->validate->getError();
+        if(!$this->validate->check($form)) return array('status'=>-1, 'msg'=>$this->validate->getError(), 'result'=>'');
 
         $data = array(
             'menu_parentid' => $form['menu_parentid'],

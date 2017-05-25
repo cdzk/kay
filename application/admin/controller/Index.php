@@ -143,6 +143,9 @@ class Index extends Base {
      */
     public function test()
     {
+        /*$rule  = "/^([\x{4e00}-\x{9fa5}]+$|([a-z]+\s?)+)$/u";
+        preg_match($rule,'a a d',$result);
+        dump($result);*/
         /*$pass = new PasswordHash(8, false);
 
         $t1 = $pass->HashPassword('admin888');

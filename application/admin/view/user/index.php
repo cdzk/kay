@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>权限管理</title>
+    <title>系统用户 > 用户管理</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta name="robots" content="noindex, nofollow">
 
@@ -41,11 +41,12 @@
   <div class="content-wrapper" style="margin: 0;">
     <!-- Content Header (Page header) -->
       <section class="content-header clearfix">
-          <h5>权限管理</h5>
+          <h5>用户管理</h5>
           <ol class="breadcrumb">
               <li><i class="fa fa-home"></i> 管理中心</li>
               <li>系统</li>
-              <li class="active">权限管理</li>
+              <li>系统用户</li>
+              <li class="active">用户管理</li>
           </ol>
       </section>
 
@@ -56,44 +57,50 @@
                 <div class="box box-info">
                     <div class="box-header">
                         <ul class="nav nav-pills child_page_menu">
-                            <li role="presentation" {$Request.action==='index' ? 'class="active"' : ''}><a href="{$Request.action==='index' ? 'javascript:void(0);' : url('admin/Auth/index')}">权限管理</a></li>
-                            <li role="presentation" {$Request.action==='add' ? 'class="active"' : ''}><a href="{$Request.action==='add' ? 'javascript:void(0);' : url('admin/Auth/add')}">添加权限</a></li>
+                            <li role="presentation" {$Request.action==='index' ? 'class="active"' : ''}><a href="{$Request.action==='index' ? 'javascript:void(0);' : url('admin/User/index')}">用户管理</a></li>
+                            <li role="presentation" {$Request.action==='add' ? 'class="active"' : ''}><a href="{$Request.action==='add' ? 'javascript:void(0);' : url('admin/User/add')}">添加用户</a></li>
                         </ul>
                     </div>
 
                     <div class="box-body">
                         <div class="table-responsive">
-                            <table class="table table-condensed table-bordered table-hover tree">
+                            <table class="table table-condensed table-bordered table-hover">
                                 <thead class="table_head">
                                 <tr>
                                     <th class="text-center" style="width: 60px;">ID</th>
-                                    <th class="text-center">权限名称</th>
-                                    <th class="text-center">模块</th>
-                                    <th class="text-center">控制器</th>
-                                    <th class="text-center">方法</th>
-                                    <th class="text-center" style="width: 200px;">操作</th>
+                                    <th class="text-center">用户名</th>
+                                    <th class="text-center">角色分组</th>
+                                    <th class="text-center">真实姓名</th>
+                                    <th class="text-center">邮箱</th>
+                                    <th class="text-center">手机号码</th>
+                                    <th class="text-center">状态</th>
+                                    <th class="text-center">添加时间</th>
+                                    <th class="text-center">最近登录</th>
+                                    <th class="text-center" style="width: 240px;">操作</th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                {volist name="auth_list" id="vo"}
-                                <tr class="treegrid-{$vo.auth_id} {$vo.level ?= ' treegrid-parent-'.$vo.auth_parentid}">
-                                    <td class="text-center">{$vo.auth_id}</td>
-
-                                    {if condition="$vo['level'] eq 0"}
-                                        <td style="font-weight: bold;">{$vo.auth_name}</td>
-                                    {else/}
-                                        <td>├{:str_repeat('─',$vo.level)} {$vo.auth_name}</td>
-                                    {/if}
-
-                                    <td class="text-center">{$vo.auth_module}</td>
-                                    <td class="text-center">{$vo.auth_controller}</td>
-                                    <td class="text-center">{$vo.auth_action}</td>
+                                {volist name="user_list" id="vo"}
+                                <tr>
+                                    <td class="text-center">{$vo.user_id}</td>
+                                    <td class="text-center">{$vo.user_name}</td>
+                                    <td class="text-center">{$vo.user_roleid}</td>
+                                    <td class="text-center">{$vo.user_realname}</td>
+                                    <td class="text-center">{$vo.user_email}</td>
+                                    <td class="text-center">{$vo.user_mobile}</td>
+                                    <td class="text-center">{switch name="vo.user_status"}
+                                        {case value="1"}<a class="btn btn-success" href="javascript:void(0);" role="button">正常</a>{/case}
+                                        {case value="0"}<a class="btn btn-default" href="javascript:void(0);" role="button">锁定</a>{/case}
+                                        {/switch}</td>
+                                    <td class="text-center">{:date('Y-m-d H:i:s', $vo.user_addtime)}</td>
+                                    <td class="text-center"></td>
                                     <td class="text-center">
-                                        <a class="btn btn-primary" href="{:url('admin/Auth/add', ['parent_id'=>$vo.auth_id])}" role="button">添加子权限</a>
-                                        <a class="btn btn-primary" href="{:url('admin/Auth/edit', ['auth_id'=>$vo.auth_id])}" role="button">修改</a>
+                                        <a class="btn btn-primary" href="javascript:void(0);" role="button">管理权限</a>
+                                        <a class="btn btn-primary" href="javascript:void(0);" role="button">菜单权限</a>
+                                        <a class="btn btn-primary" href="{:url('admin/User/edit', ['user_id'=>$vo.user_id])}" role="button">修改</a>
                                         <a class="btn btn-primary" href="javascript:void(0);"
-                                           onclick="ycApp.ajaxDel('{:url('admin/Auth/del')}', 'auth_id={$vo.auth_id}')"
+                                           onclick="ycApp.ajaxDel('{:url('admin/User/del')}', 'user_id={$vo.user_id}')"
                                            role="button">删除</a>
                                     </td>
                                 </tr>

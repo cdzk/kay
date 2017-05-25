@@ -66,7 +66,7 @@ class Admin_auth extends Model {
         $form = input('post.');
 
         // 验证表单
-        if(!$this->validate->check($form)) return array('status'=>-1, 'msg'=>'数据错误，请重试', 'result'=>'');
+        if(!$this->validate->check($form)) return array('status'=>-1, 'msg'=>$this->validate->getError(), 'result'=>'');
 
         $data = array(
             'auth_parentid' => $form['auth_parentid'],

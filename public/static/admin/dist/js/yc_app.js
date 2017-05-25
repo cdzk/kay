@@ -151,6 +151,7 @@ baseApp.prototype = {
      *
      * @description
      *  引用 xxx/Validform_v5.3.2.js
+     *
      */
     initValidator: function () {
         // 判断表单验证提示信息容器是否有内容，并进行样式调整
@@ -186,10 +187,14 @@ baseApp.prototype = {
             showAllError: true,
             postonce: true,
             datatype:{ // 自定义验证规则
-                'yes_null': /^\s*$/,                    // 允许为空
-                'lowercase': /[a-z]+$/,                   // 只允许小写英文字母
-                'first_capital': /^[A-Z][A-Za-z]+$/,    // 只允许大小写英文字母，且首写字母必须为大写
-                'scope_string_1': /[a-zA-Z_]/ig,       // 只允许大小写英文字母与“_”下划线
+                'yes_null': /^\s*$/,                                    // 允许为空
+                'lowercase': /[a-z]+$/,                                 // 只允许小写英文字母
+                'first_capital': /^[A-Z][A-Za-z]+$/,                    // 只允许大小写英文字母，且首写字母必须为大写
+                'scope_string_1': /[a-zA-Z_]/ig,                        // 只允许大小写英文字母与“_”下划线
+                'scope_string_2': /^(?=.*\d.*)(?=.*[a-zA-Z].*).{2,}$/,  // 必须包含英文字母与数字
+                'scope_string_3': /[a-zA-Z0-9]+$/,                      // 只允许使用英文字母与数字
+                'check_name': /^([\u4e00-\u9fa5]+|([a-z]+\s?)+)$/,      // 姓名格式验证 中文不允许有空格，英文最多只能有一个空格
+                'check_mobile': /^1[3-9]\d{9}$/,                        // 手机号码格式验证
             },
             beforeSubmit: function () {
                 waitLoad = layer.load(1, {

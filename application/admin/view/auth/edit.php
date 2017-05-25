@@ -45,8 +45,8 @@
       <section class="content-header clearfix">
           <h5>权限管理</h5>
           <ol class="breadcrumb">
-              <li><i class="fa fa-home"></i> 管理中心</a></li>
-              <li>系统</a></li>
+              <li><i class="fa fa-home"></i> 管理中心</li>
+              <li>系统</li>
               <li class="active">权限管理</li>
           </ol>
       </section>
@@ -95,7 +95,7 @@
                             <div class="form-group">
                                 <label for="auth_module">模块</label>
                                 <input type="text" class="form-control" id="auth_module" name="auth_module"
-                                       datatype="*|lowercase"
+                                       datatype="lowercase"
                                        nullmsg="请填写模块名"
                                        errormsg="模块名只允许为小写英文字母"
                                        placeholder="模块名"
@@ -105,7 +105,7 @@
                             <div class="form-group">
                                 <label for="auth_controller">控制器</label>
                                 <input type="text" class="form-control" id="auth_controller" name="auth_controller"
-                                       datatype="*|first_capital"
+                                       datatype="first_capital"
                                        nullmsg="请填写控制器名"
                                        errormsg="控制器名只允许为英文字母，且首字母必须为大写"
                                        placeholder="控制器名"
@@ -115,7 +115,7 @@
                             <div class="form-group">
                                 <label for="auth_action">方法</label>
                                 <input type="text" class="form-control" id="auth_action" name="auth_action"
-                                       datatype="*|scope_string_1"
+                                       datatype="scope_string_1"
                                        nullmsg="请填写方法名"
                                        errormsg="方法名只允许为英文字母与下划线"
                                        placeholder="方法名"
@@ -150,8 +150,6 @@
 
 <!-- Select2 -->
 <script src="{$Think.PATH_STATIC}plugins/select2/select2.full.min.js"></script>
-<!-- iCheck 1.0.1 -->
-<script src="{$Think.PATH_STATIC}plugins/icheck-1.0.2/icheck.min.js"></script>
 <!-- Validform 5.3.2 -->
 <script src="{$Think.PATH_COMMON_STATIC}plugins/Validform/Validform_v5.3.2.js"></script>
 <!-- jquery-form 4.2.1 -->
