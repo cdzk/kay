@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2017-05-25 19:02:13
+Date: 2017-05-31 17:31:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,7 +26,8 @@ CREATE TABLE `yc_admin_auth` (
   `auth_module` varchar(255) NOT NULL,
   `auth_controller` varchar(255) NOT NULL COMMENT '控制器',
   `auth_action` varchar(255) NOT NULL COMMENT '方法',
-  PRIMARY KEY (`auth_id`)
+  PRIMARY KEY (`auth_id`),
+  UNIQUE KEY `auth_id_UNIQUE` (`auth_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='权限节点';
 
 -- ----------------------------
@@ -72,6 +73,27 @@ INSERT INTO `yc_admin_menu` VALUES ('5', '4', '用户管理', 'admin', 'User', '
 INSERT INTO `yc_admin_menu` VALUES ('6', '4', '角色管理', 'admin', 'Role', 'index', null, '0', '1');
 
 -- ----------------------------
+-- Table structure for yc_admin_role
+-- ----------------------------
+DROP TABLE IF EXISTS `yc_admin_role`;
+CREATE TABLE `yc_admin_role` (
+  `role_id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '角色id',
+  `role_name` varchar(255) NOT NULL COMMENT '角色名称',
+  `role_remake` text COMMENT '角色描述',
+  `role_auth` mediumtext COMMENT '角色权限',
+  `role_menu` mediumtext COMMENT '菜单权限',
+  `role_status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '角色状态：1=正常，0=禁用',
+  PRIMARY KEY (`role_id`),
+  UNIQUE KEY `role_id_UNIQUE` (`role_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='系统用户角色';
+
+-- ----------------------------
+-- Records of yc_admin_role
+-- ----------------------------
+INSERT INTO `yc_admin_role` VALUES ('1', '超级管理员', '拥有最高权限', 'super', 'all', '1');
+INSERT INTO `yc_admin_role` VALUES ('2', '测试角色', '测试的角色', null, null, '1');
+
+-- ----------------------------
 -- Table structure for yc_admin_user
 -- ----------------------------
 DROP TABLE IF EXISTS `yc_admin_user`;
@@ -88,10 +110,11 @@ CREATE TABLE `yc_admin_user` (
   `user_login_last_ip` varchar(255) DEFAULT NULL COMMENT '用户最后一次登录ip',
   `user_login_last_area` varchar(255) DEFAULT NULL COMMENT '用户最后一次登录地区',
   `user_login_last_time` int(10) DEFAULT NULL COMMENT '用户最后一次登录时间',
-  PRIMARY KEY (`user_id`)
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `user_id_UNIQUE` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='系统用户';
 
 -- ----------------------------
 -- Records of yc_admin_user
 -- ----------------------------
-INSERT INTO `yc_admin_user` VALUES ('1', '0', 'admin', '$2a$08$WoDoUJUDsBqPlQn3fytNBOCP5JVW1AgBrvu2G9uyNGWvMoQToe.Qy', '猿创科技', 'service@i-yc.com', '13800138000', '1', '1495705635', null, null, null);
+INSERT INTO `yc_admin_user` VALUES ('1', '1', 'admin', '$2a$08$WoDoUJUDsBqPlQn3fytNBOCP5JVW1AgBrvu2G9uyNGWvMoQToe.Qy', '猿创科技', 'service@i-yc.com', '13800138000', '1', '1496217720', null, null, null);
