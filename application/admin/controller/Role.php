@@ -41,8 +41,6 @@ class Role extends Base
         return view('role/index');
     }
 
-    // TODO 添加角色
-
     /**
      * add
      * 添加角色
