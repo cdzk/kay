@@ -78,15 +78,18 @@
                                 <div class="Validform_checktip">用户名只允许使用英文字母与数字</div>
                             </div>
                             <div class="form-group">
-                                <label for="menu_parentid">角色分组</label>
+                                <label for="user_roleid">角色分组</label>
                                 <select class="form-control select2" id="user_roleid" name="user_roleid"
-                                        <!--datatype="*"
+                                        datatype="*"
                                         nullmsg="请选择角色分组"
-                                        errormsg="请选择角色分组"-->
+                                        errormsg="请选择角色分组"
                                         style="width: 100%;">
                                     <option value="">请选择</option>
+                                    {volist name="role_list" id="vo"}
+                                        <option value="{$vo.role_id}">{$vo.role_name}</option>
+                                    {/volist}
                                 </select>
-                                <!--<div class="Validform_checktip"></div>-->
+                                <div class="Validform_checktip"></div>
                             </div>
                             <div class="form-group">
                                 <label for="user_password">登录密码</label>

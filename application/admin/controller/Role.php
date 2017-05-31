@@ -2,29 +2,24 @@
 /**
  * Created by PhpStorm.
  *
- * @Date: 2017-05-24
- * @Time: 23:08
+ * @Date: 2017-05-31
+ * @Time: 11:18
  * @Author: cdkay
  * @Email: network@iyuanma.net
  *
- * @File： User.php
+ * @File： Role.php
  */
 
 namespace app\admin\controller;
 
 use app\admin\model\Admin_role;
-use app\admin\model\Admin_user;
 use think\Request;
 
-class User extends Base
+class Role extends Base
 {
-    private $user;
     private $role;
     public function _initialize()
     {
-        // 实例化系统用户模型
-        $this->user = new Admin_user();
-
         // 实例化系统用户角色模型
         $this->role = new Admin_role();
 
@@ -33,91 +28,52 @@ class User extends Base
 
     /**
      * index
-     * 系统用户 列表
+     * 系统用户角色 列表
      *
      * @return \think\response\View
      */
     public function index()
     {
-        // 获取系统用户数据
-        $data = $this->user->get_query_user();
-        $this->assign('user_list', $data);
-
-        return view('user/index');
-    }
-
-    /**
-     * get_role
-     * 获取用户角色数据
-     *
-     * access private
-     */
-    private function get_role()
-    {
         // 获取系统用户角色数据
-        $role_data = $this->role
-            ->field('role_id, role_name')
-            ->where('role_status', 1)
-            ->select();
-        $this->assign('role_list', $role_data);
+        $data = $this->role->get_query_user();
+        $this->assign('role_list', $data);
+
+        return view('role/index');
     }
+
+    // TODO 添加角色
 
     /**
      * add
-     * 添加用户
+     * 添加角色
      *
      * @return \think\response\View
      */
     public function add()
     {
-        $this->get_role();
-
-        return view('user/add');
+        return view('role/add');
     }
 
     /**
      * edit
-     * 修改用户
+     * 修改角色
      *
-     * @param int $user_id 用户id
+     * @param int $role_id 角色id
      * @return \think\response\View
      */
-    public function edit($user_id)
+    public function edit($role_id)
     {
-        if (empty($user_id)) exit;
+        if (empty($role_id)) exit;
 
-        $result = $this->user->get_single_user($user_id);
-        $this->assign('user', $result);
+        $result = $this->role->get_single_role($role_id);
+        $this->assign('role', $result);
 
-        $this->get_role();
-
-        return view('user/edit');
-    }
-
-    // TODO 修改当前登录用户资料
-
-    /**
-     * repeat
-     * 用户(用户名)重复检测
-     *
-     * @return \think\response\Json
-     */
-    public function repeat()
-    {
-        if (!Request::instance()->isPost()) exit;
-
-        $result = $this->user->repeat_user();
-
-        if ($result) {
-            return json(array('info'=>'用户名已经存在', 'status'=>'n'));
-        } else {
-            return json(array('info'=>'验证通过！', 'status'=>'y'));
-        }
+        return view('role/edit');
     }
 
     /**
      * save
-     * 保存用户数据 添加|修改
+     * 保存角色数据 添加|修改
      *
      * @return \think\response\Json
      */
@@ -125,11 +81,11 @@ class User extends Base
     {
         if (!Request::instance()->isPost()) exit;
 
-        $result = $this->user->save_user();
+        $result = $this->role->save_role();
 
         if (!is_array($result)) {
             if ($result) {
-                return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>array('jumpUrl'=>url('admin/User/index'))));
+                return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>array('jumpUrl'=>url('admin/Role/index'))));
             } else {
                 return json(array('status'=>0, 'msg'=>'操作失败', 'result'=>''));
             }
@@ -140,7 +96,7 @@ class User extends Base
 
     /**
      * del
-     * 删除用户
+     * 删除角色
      *
      * @return \think\response\Json
      */
@@ -148,7 +104,7 @@ class User extends Base
     {
         if (!Request::instance()->isAjax()) exit;
 
-        $result = $this->user->delete_user();
+        $result = $this->role->delete_role();
 
         if (!is_array($result)) {
             if ($result) {
@@ -163,7 +119,7 @@ class User extends Base
 
     /**
      * status
-     * 设置用户状态
+     * 设置角色状态
      *
      * @return \think\response\Json
      */
@@ -171,7 +127,7 @@ class User extends Base
     {
         if (!Request::instance()->isAjax()) exit;
 
-        $result = $this->user->status_user();
+        $result = $this->role->status_role();
 
         if ($result) {
             return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>''));

@@ -17,8 +17,8 @@ use think\Validate;
 class AdminUser extends Validate {
     // 验证规则
     protected $rule =   [
-        // ['user_roleid', 'require|token:__hash__', '角色分组不能为空'],
-        ['user_name', 'require|token:__hash__', '系统用户名不能为空'],
+        ['user_roleid', 'require|token:__hash__', '角色分组不能为空'],
+        ['user_name', 'require', '系统用户名不能为空'],
         ['user_password', 'require|^(?=.*\d.*)(?=.*[a-zA-Z].*).{6,20}$', '登录密码不能为空|登录密码必须包含英文字母与数字，长度在6-20之间'],
         // ['user_realname', '/^([\x{4e00}-\x{9fa5}]+|([a-z]+\s?)+)$/u', '真实姓名，中文字符之间不允许有空格；英文字符之间只能有一个空格'],
         ['user_email', '^[\w\+\-]+(\.[\w\+\-]+)*@[a-z\d\-]+(\.[a-z\d\-]+)*\.([a-z]{2,4})$', '邮箱格式不正确'],

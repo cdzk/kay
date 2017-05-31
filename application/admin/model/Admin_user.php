@@ -38,6 +38,8 @@ class Admin_user extends Model {
      */
     public function get_query_user()
     {
+        $this->alias('a');
+        $this->join('admin_role b', 'a.user_roleid=b.role_id', 'LEFT');
         return $this->select();
     }
 
@@ -106,7 +108,7 @@ class Admin_user extends Model {
             if ($isExist) {
                 return $this->where('user_id', $user_id)->update($data);
             } else {
-                return array('status'=>-1, 'msg'=>'数据错误，请重试2', 'result'=>'');
+                return array('status'=>-1, 'msg'=>'数据错误，请重试', 'result'=>'');
             }
         }
     }

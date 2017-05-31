@@ -27,7 +27,7 @@ Route::group('admin/auth',[
     'del' => ['admin/Auth/del', ['method' => 'get']],                   // 删除权限
 ]);
 
-// 管理后台 > 系统 > 用户管理 > 系统用户
+// 管理后台 > 系统 > 系统用户 > 用户管理
 Route::rule('admin/user', 'admin/User/index');              // 列表
 Route::group('admin/user',[
     'add' => ['admin/User/add'],                                        // 新增用户
@@ -36,6 +36,16 @@ Route::group('admin/user',[
     'save' => ['admin/User/save', ['method' => 'post']],                // 保存用户数据
     'del' => ['admin/User/del', ['method' => 'get']],                   // 删除用户
     'status' => ['admin/User/status', ['method' => 'post']]             // 设置用户状态
+]);
+
+// 管理后台 > 系统 > 系统用户 > 角色管理
+Route::rule('admin/role', 'admin/Role/index');              // 列表
+Route::group('admin/role',[
+    'add' => ['admin/Role/add'],                                        // 新增角色
+    'edit/:role_id' => ['admin/Role/edit', [], ['role_id'=>'\d+']],     // 编辑角色
+    'save' => ['admin/Role/save', ['method' => 'post']],                // 保存角色数据
+    'del' => ['admin/Role/del', ['method' => 'get']],                   // 删除角色
+    'status' => ['admin/Role/status', ['method' => 'post']]             // 设置角色状态
 ]);
 
 // ajax请求
