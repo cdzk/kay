@@ -35,6 +35,7 @@ Route::group('admin/user',[
     'repeat' => ['admin/User/repeat', ['method' => 'post']],            // 用户重复检测
     'save' => ['admin/User/save', ['method' => 'post']],                // 保存用户数据
     'del' => ['admin/User/del', ['method' => 'get']],                   // 删除用户
+    'status' => ['admin/User/status', ['method' => 'post']]             // 设置用户状态
 ]);
 
 // ajax请求

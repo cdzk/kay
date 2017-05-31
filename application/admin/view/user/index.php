@@ -76,7 +76,7 @@
                                     <th class="text-center">状态</th>
                                     <th class="text-center">添加时间</th>
                                     <th class="text-center">最近登录</th>
-                                    <th class="text-center" style="width: 240px;">操作</th>
+                                    <th class="text-center" style="width: 200px;">操作</th>
                                 </tr>
                                 </thead>
 
@@ -90,14 +90,12 @@
                                     <td class="text-center">{$vo.user_email}</td>
                                     <td class="text-center">{$vo.user_mobile}</td>
                                     <td class="text-center">{switch name="vo.user_status"}
-                                        {case value="1"}<a class="btn btn-success" href="javascript:void(0);" role="button">正常</a>{/case}
-                                        {case value="0"}<a class="btn btn-default" href="javascript:void(0);" role="button">锁定</a>{/case}
+                                        {case value="1"}<a class="btn btn-success" href="javascript:void(0);" role="button" onclick="setStatus({$vo.user_id}, 0);">正常</a>{/case}
+                                        {case value="0"}<a class="btn btn-default" href="javascript:void(0);" role="button" onclick="setStatus({$vo.user_id}, 1);">锁定</a>{/case}
                                         {/switch}</td>
                                     <td class="text-center">{:date('Y-m-d H:i:s', $vo.user_addtime)}</td>
                                     <td class="text-center"></td>
                                     <td class="text-center">
-                                        <a class="btn btn-primary" href="javascript:void(0);" role="button">管理权限</a>
-                                        <a class="btn btn-primary" href="javascript:void(0);" role="button">菜单权限</a>
                                         <a class="btn btn-primary" href="{:url('admin/User/edit', ['user_id'=>$vo.user_id])}" role="button">修改</a>
                                         <a class="btn btn-primary" href="javascript:void(0);"
                                            onclick="ycApp.ajaxDel('{:url('admin/User/del')}', 'user_id={$vo.user_id}')"
@@ -138,4 +136,39 @@
     $(function () {
         ycApp.treeTable(2);
     });
+
+    /**
+     * 设置用户状态
+     * @param user_id 用户id
+     * @param user_status 状态码
+     */
+    function setStatus(user_id, user_status) {
+        var _this = event.toElement,
+            $this = $(_this),
+            str='';
+        var status = function () {
+            switch (user_status) {
+                case 0:
+                    str = '<a class="btn btn-default" href="javascript:void(0);" role="button" onclick="setStatus('+ user_id +', 1);">锁定</a>';
+                    break;
+                case 1:
+                    str = '<a class="btn btn-success" href="javascript:void(0);" role="button" onclick="setStatus('+ user_id +', 0);">正常</a>';
+                    break;
+            }
+            $this.parent().html(str);
+        };
+
+        var waitLoad; // 等待动画调用变量
+        ycApp.aReq('post', '{:url('admin/User/status')}', {user_id:user_id, user_status:user_status}, 'json',
+            function () {
+                waitLoad = layer.load(1, {
+                    shade: [0.5,'#000']
+                });
+            },
+            function (d) {
+                layer.close(waitLoad);
+                layer.msg(d['msg']);
+                if (d['status']) status();
+            });
+    }
 </script>

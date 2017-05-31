@@ -123,4 +123,18 @@ class Admin_user extends Model {
 
         return $this->destroy($user_id);
     }
+
+    /**
+     * status_user
+     * 更新用户状态
+     *
+     * @return $this
+     */
+    public function status_user()
+    {
+        $user_id = input('post.user_id');
+        $user_status = input('post.user_status');
+
+        return $this->where('user_id', $user_id)->update(array('user_status'=>$user_status));
+    }
 }

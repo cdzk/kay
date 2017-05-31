@@ -138,5 +138,22 @@ class User extends Base
         }
     }
 
-    // TODO 设置用户状态
+    /**
+     * status
+     * 设置用户状态
+     *
+     * @return \think\response\Json
+     */
+    public function status()
+    {
+        if (!Request::instance()->isAjax()) exit;
+
+        $result = $this->user->status_user();
+
+        if ($result) {
+            return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>''));
+        } else {
+            return json(array('status'=>0, 'msg'=>'操作失败', 'result'=>''));
+        }
+    }
 }
