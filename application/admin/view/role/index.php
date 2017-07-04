@@ -86,8 +86,8 @@
                                         {case value="0"}<a class="btn btn-default" href="javascript:void(0);" role="button" onclick="setStatus({$vo.role_id}, 1);">禁用</a>{/case}
                                         {/switch}</td>
                                     <td class="text-center">
-                                        <a class="btn btn-primary {$vo.role_id===1 ? 'disabled' : ''}" href="javascript:void(0);" role="button">管理权限</a>
                                         <a class="btn btn-primary {$vo.role_id===1 ? 'disabled' : ''}" href="javascript:void(0);" role="button">菜单权限</a>
+                                        <a class="btn btn-primary {$vo.role_id===1 ? 'disabled' : ''}" href="javascript:void(0);" role="button">管理权限</a>
                                         <a class="btn btn-primary" href="javascript:void(0);" role="button">成员管理</a>
                                         <a class="btn btn-primary {$vo.role_id===1 ? 'disabled' : ''}" href="{$vo.role_id===1 ? '' : url('admin/Role/edit', ['role_id'=>$vo.role_id])}" role="button">修改</a>
                                         <a class="btn btn-primary {$vo.role_id===1 ? 'disabled' : ''}" href="javascript:void(0);"
