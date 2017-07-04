@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "topthink/framework",
-            "version": "v5.0.9",
+            "version": "v5.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "24ae4b9042bf9acfd041eb34602b14eb8669bc3f"
+                "reference": "90d71bbc76d0915e0cf51ecad57350c0c79d5a3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/top-think/framework/24ae4b9042bf9acfd041eb34602b14eb8669bc3f.zip",
-                "reference": "24ae4b9042bf9acfd041eb34602b14eb8669bc3f",
+                "url": "https://files.phpcomposer.com/files/top-think/framework/90d71bbc76d0915e0cf51ecad57350c0c79d5a3f.zip",
+                "reference": "90d71bbc76d0915e0cf51ecad57350c0c79d5a3f",
                 "shasum": ""
             },
             "require": {
@@ -55,20 +55,20 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2017-05-20T10:43:04+00:00"
+            "time": "2017-07-04T03:46:13+00:00"
         },
         {
             "name": "topthink/think-installer",
-            "version": "v1.0.11",
+            "version": "v1.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-installer.git",
-                "reference": "4c6e1ebecd1afce3f4ccc47e147d61bbe1bf641d"
+                "reference": "1be326e68f63de4e95977ed50f46ae75f017556d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/top-think/think-installer/4c6e1ebecd1afce3f4ccc47e147d61bbe1bf641d.zip",
-                "reference": "4c6e1ebecd1afce3f4ccc47e147d61bbe1bf641d",
+                "url": "https://files.phpcomposer.com/files/top-think/think-installer/1be326e68f63de4e95977ed50f46ae75f017556d.zip",
+                "reference": "1be326e68f63de4e95977ed50f46ae75f017556d",
                 "shasum": ""
             },
             "require": {
@@ -96,7 +96,7 @@
                     "email": "448901948@qq.com"
                 }
             ],
-            "time": "2016-12-01T09:08:45+00:00"
+            "time": "2017-05-27T06:58:09+00:00"
         }
     ],
     "packages-dev": [],
