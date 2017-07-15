@@ -133,4 +133,78 @@ class Role extends Base
             return json(array('status'=>0, 'msg'=>'操作失败', 'result'=>''));
         }
     }
+
+    /**
+     * auth_menu
+     * 设置角色菜单权限
+     *
+     * @param string $type 请求类型
+     * @return \think\response\Json
+     */
+    public function auth_menu($type=null)
+    {
+        if (!Request::instance()->isAjax()) exit;
+
+        switch ($type) {
+            case 'save': // 保存权限数据
+                $result = $this->role->save_role_menu();
+
+                if ($result) {
+                    return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>''));
+                } else {
+                    return json(array('status'=>0, 'msg'=>'操作失败', 'result'=>''));
+                }
+                break;
+            default:
+                // 获取菜单数据
+                $tree = $this->role->get_menu();
+
+                // 根据角色id获取角色id的菜单权限数据
+                $role_tree = $this->role->get_single_role(input('post.id'));
+
+                $result = array(
+                    'tree' => $tree,
+                    'role_tree' => $role_tree['role_menu']
+                );
+                return json($result);
+                break;
+        }
+    }
+
+    /**
+     * auth
+     * 设置角色管理权限
+     *
+     * @param string $type 请求类型
+     * @return \think\response\Json
+     */
+    public function auth($type=null)
+    {
+        if (!Request::instance()->isAjax()) exit;
+
+        switch ($type) {
+            case 'save': // 保存权限数据
+                $result = $this->role->save_role_auth();
+
+                if ($result) {
+                    return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>''));
+                } else {
+                    return json(array('status'=>0, 'msg'=>'操作失败', 'result'=>''));
+                }
+                break;
+            default:
+                // 获取菜单数据
+                $tree = $this->role->get_auth();
+
+                // 根据角色id获取角色id的管理权限数据
+                $role_tree = $this->role->get_single_role(input('post.id'));
+
+                $result = array(
+                    'tree' => $tree,
+                    'role_tree' => $role_tree['role_auth']
+                );
+                return json($result);
+                break;
+        }
+    }
 }

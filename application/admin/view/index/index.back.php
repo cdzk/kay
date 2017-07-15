@@ -199,5 +199,5 @@
 <script src="{$Think.PATH_STATIC}dist/js/yc_app.js"></script>
 <script>
     // 每隔60秒获取一次服务器系统信息
-    setInterval("ycApp.getSysInfo()", 1 * 1000);
+    setInterval("syApp.getSysInfo()", 1 * 1000);
 </script>

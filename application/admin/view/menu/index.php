@@ -99,7 +99,7 @@
                                             <a class="btn btn-primary" href="{:url('admin/Menu/add', ['parent_id'=>$vo.menu_id])}" role="button">添加子菜单</a>
                                             <a class="btn btn-primary" href="{:url('admin/Menu/edit', ['menu_id'=>$vo.menu_id])}" role="button">修改</a>
                                             <a class="btn btn-primary" href="javascript:void(0);"
-                                               onclick="ycApp.ajaxDel('{:url('admin/Menu/del')}', 'menu_id={$vo.menu_id}')"
+                                               onclick="syApp.ajaxDel('{:url('admin/Menu/del')}', 'menu_id={$vo.menu_id}')"
                                                role="button">删除</a>
                                         </td>
                                     </tr>
@@ -142,8 +142,8 @@
 <script src="{$Think.PATH_STATIC}dist/js/yc_app.js"></script>
 <script>
     $(function () {
-        ycApp.treeTable(3);
-        ycApp.ajaxFormSubmit($('form'));
+        syApp.treeTable(3);
+        syApp.ajaxFormSubmit($('form'));
     });
 
     /**
@@ -168,7 +168,7 @@
         };
 
         var waitLoad; // 等待动画调用变量
-        ycApp.aReq('post', '{:url('admin/Menu/status')}', {menu_id:menu_id, menu_status:menu_status}, 'json',
+        syApp.aReq('post', '{:url('admin/Menu/status')}', {menu_id:menu_id, menu_status:menu_status}, 'json',
             function () {
                 waitLoad = layer.load(1, {
                     shade: [0.5,'#000']

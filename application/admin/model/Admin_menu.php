@@ -38,10 +38,11 @@ class Admin_menu extends Model {
         if (isset($status)) $this->where('menu_status', $status);
         $this->order('menu_sort desc, menu_id asc');
         $menu = $this->select();
+
         $data = array();
         foreach ($menu as $key=>$val)
         {
-            $data[$key] = $val->toArray();
+            $data[$key] = $val->toArray(); // toArray() 对象转为数组
         }
 
         return $data;

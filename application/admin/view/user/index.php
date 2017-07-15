@@ -102,7 +102,7 @@
                                     <td class="text-center">
                                         <a class="btn btn-primary" href="{:url('admin/User/edit', ['user_id'=>$vo.user_id])}" role="button">修改</a>
                                         <a class="btn btn-primary" href="javascript:void(0);"
-                                           onclick="ycApp.ajaxDel('{:url('admin/User/del')}', 'user_id={$vo.user_id}')"
+                                           onclick="syApp.ajaxDel('{:url('admin/User/del')}', 'user_id={$vo.user_id}')"
                                            role="button">删除</a>
                                     </td>
                                 </tr>
@@ -138,7 +138,7 @@
 <script src="{$Think.PATH_STATIC}dist/js/yc_app.js"></script>
 <script>
     $(function () {
-        ycApp.treeTable(2);
+        syApp.treeTable(2);
     });
 
     /**
@@ -163,7 +163,7 @@
         };
 
         var waitLoad; // 等待动画调用变量
-        ycApp.aReq('post', '{:url('admin/User/status')}', {user_id:user_id, user_status:user_status}, 'json',
+        syApp.aReq('post', '{:url('admin/User/status')}', {user_id:user_id, user_status:user_status}, 'json',
             function () {
                 waitLoad = layer.load(1, {
                     shade: [0.5,'#000']

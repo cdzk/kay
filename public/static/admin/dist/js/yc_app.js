@@ -282,7 +282,65 @@ baseApp.prototype = {
                         $this.remove();
                     });
         });
+    },
+
+    /**
+     * zTree树插件
+     * @help http://www.treejs.cn/v3/api.php
+     *
+     * @param option
+     */
+    zTree: function (option) {
+        // 默认配置
+        var defaults = {
+            // 容器，jquery对象，id、dom、class均可
+            container: $('#tree'),
+
+            // 配置参数
+            setting: {
+                async: {
+                    enable: true, // 是否开启异步加载
+                    url: '', // 异步请求url
+                    type: 'post', // 请求方式 post get
+                    autoParam: [] // 加载时需要自动提交的父节点id字段
+                },
+                view: {
+                    showIcon: false // 是否显示图标
+                },
+                check: {
+                    enable: true, // 是否显示选择框控件
+                    chkStyle: 'checkbox' // 选择选框 checkbox 或 radio
+                },
+                data: {
+                    key: {
+                        name: 'name' // 节点名称字段
+                    },
+                    simpleData: {
+                        enable: true, // 是否使用简单数据模式
+                        idKey: 'id', // 节点id字段
+                        pIdKey: 'pid', // 节点父id字段
+                        rootPId: 0 // 根节点默认值
+                    }
+                },
+
+                // 回调事件
+                callback: {}
+            },
+
+            // 节点数据 异步加载时不需要
+            zNodes: null
+        };
+
+        // 替换默认配置参数
+        $.extend({obj: option});
+        var opt = $.extend(true, defaults, $.obj);
+
+        // 加载数据
+        return $.fn.zTree.init(opt.container, opt.setting, opt.zNodes);
+
+        //console.log(checkedNodeId);
+        //return checkedNodeId;
     }
 };
 
-var ycApp = new baseApp();
+var syApp = new baseApp();

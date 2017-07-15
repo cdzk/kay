@@ -57,13 +57,13 @@
 <script src="{$Think.PATH_STATIC}dist/js/yc_app.js"></script>
 <script>
     $(function () {
-        ycApp.setMainHeight();
-        ycApp.iframeHeight();
+        syApp.setMainHeight();
+        syApp.iframeHeight();
     });
 
     // 根据窗口大小调整 main区域的高度
     $(window).resize(function() {
-        ycApp.setMainHeight();
-        ycApp.iframeHeight();
+        syApp.setMainHeight();
+        syApp.iframeHeight();
     });
 </script>

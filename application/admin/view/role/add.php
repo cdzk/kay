@@ -146,6 +146,6 @@
             radioClass: 'iradio_minimal-blue'
         });
 
-        ycApp.initValidator();
+        syApp.initValidator();
     });
 </script>

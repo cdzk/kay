@@ -39,13 +39,15 @@ Route::group('admin/user',[
 ]);
 
 // 管理后台 > 系统 > 系统用户 > 角色管理
-Route::rule('admin/role', 'admin/Role/index');              // 列表
+Route::rule('admin/role', 'admin/Role/index');                  // 列表
 Route::group('admin/role',[
-    'add' => ['admin/Role/add'],                                        // 新增角色
-    'edit/:role_id' => ['admin/Role/edit', [], ['role_id'=>'\d+']],     // 编辑角色
-    'save' => ['admin/Role/save', ['method' => 'post']],                // 保存角色数据
-    'del' => ['admin/Role/del', ['method' => 'get']],                   // 删除角色
-    'status' => ['admin/Role/status', ['method' => 'post']]             // 设置角色状态
+    'add' => ['admin/Role/add'],                                            // 新增角色
+    'edit/:role_id' => ['admin/Role/edit', [], ['role_id'=>'\d+']],         // 编辑角色
+    'save' => ['admin/Role/save', ['method' => 'post']],                    // 保存角色数据
+    'del' => ['admin/Role/del', ['method' => 'get']],                       // 删除角色
+    'status' => ['admin/Role/status', ['method' => 'post']],                // 设置角色状态
+    'auth_menu/[:type]' => ['admin/Role/auth_menu', ['method' => 'post']],  // 设置角色菜单权限
+    'auth/[:type]' => ['admin/Role/auth', ['method' => 'post']],            // 设置角色管理权限
 ]);
 
 // ajax请求

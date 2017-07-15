@@ -93,7 +93,7 @@
                                         <a class="btn btn-primary" href="{:url('admin/Auth/add', ['parent_id'=>$vo.auth_id])}" role="button">添加子权限</a>
                                         <a class="btn btn-primary" href="{:url('admin/Auth/edit', ['auth_id'=>$vo.auth_id])}" role="button">修改</a>
                                         <a class="btn btn-primary" href="javascript:void(0);"
-                                           onclick="ycApp.ajaxDel('{:url('admin/Auth/del')}', 'auth_id={$vo.auth_id}')"
+                                           onclick="syApp.ajaxDel('{:url('admin/Auth/del')}', 'auth_id={$vo.auth_id}')"
                                            role="button">删除</a>
                                     </td>
                                 </tr>
@@ -129,6 +129,6 @@
 <script src="{$Think.PATH_STATIC}dist/js/yc_app.js"></script>
 <script>
     $(function () {
-        ycApp.treeTable(2);
+        syApp.treeTable(2);
     });
 </script>

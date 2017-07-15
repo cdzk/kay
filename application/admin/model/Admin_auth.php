@@ -32,10 +32,10 @@ class Admin_auth extends Model {
      */
     public function get_all_auth()
     {
-        $menu = $this->select();
+        $auth = $this->select();
 
         $data = array();
-        foreach ($menu as $key=>$val)
+        foreach ($auth as $key=>$val)
         {
             $data[$key] = $val->toArray();
         }

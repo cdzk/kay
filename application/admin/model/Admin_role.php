@@ -12,6 +12,7 @@
 
 namespace app\admin\model;
 
+use library\Tree;
 use think\Model;
 
 class Admin_role extends Model
@@ -95,5 +96,115 @@ class Admin_role extends Model
         $role_status = input('post.role_status');
 
         return $this->where('role_id', $role_id)->update(array('role_status'=>$role_status));
+    }
+
+    /**
+     * get_menu
+     * 获取管理菜单数据
+     *
+     * @return mixed
+     */
+    public function get_menu()
+    {
+        $model = new Admin_menu(); // 调用管理菜单模型
+
+        // 获取管理菜单数据
+        $model->order('menu_sort desc, menu_id asc');
+        $model->where('menu_status=1');
+        $menu = $model->select();
+
+        $data = array();
+        foreach ($menu as $key=>$val)
+        {
+            $data[$key] = $val->toArray(); // toArray() 对象转为数组
+        }
+
+        // 生成无限级菜单数组数据
+        $menu_tree = Tree::makeTree($data, array(
+            'primary_key' => 'menu_id',
+            'parent_key' => 'menu_parentid',
+            'expanded_key' => 'open',
+            'expanded' => true
+        ));
+
+        return $menu_tree;
+    }
+
+    /**
+     * save_role_menu
+     * 保存角色菜单权限到数据库
+     *
+     * @return $this|array
+     */
+    public function save_role_menu()
+    {
+        $form = input('post.');
+
+        $data = array(
+            'role_menu' => $form['checkedAuth']
+        );
+
+        $role_id = (int)$form['role_id'];
+        $isExist = $this->where('role_id', $role_id)->count();
+
+        if ($isExist) {
+            return $this->where('role_id', $role_id)->update($data);
+        } else {
+            return array('status'=>-1, 'msg'=>'数据错误，请重试', 'result'=>'');
+        }
+    }
+
+    /**
+     * get_auth
+     * 获取权限数据
+     *
+     * @return mixed
+     */
+    public function get_auth()
+    {
+        $model = new Admin_auth(); // 调用管理菜单模型
+
+        // 获取权限数据
+        $auth = $model->select();
+
+        $data = array();
+        foreach ($auth as $key=>$val)
+        {
+            $data[$key] = $val->toArray(); // toArray() 对象转为数组
+        }
+
+        // 生成无限级菜单数组数据
+        $auth_tree = Tree::makeTree($data, array(
+            'primary_key' => 'auth_id',
+            'parent_key' => 'auth_parentid',
+            'expanded_key' => 'open',
+            'expanded' => true
+        ));
+
+        return $auth_tree;
+    }
+
+    /**
+     * save_role_auth
+     * 保存角色管理权限到数据库
+     *
+     * @return $this|array
+     */
+    public function save_role_auth()
+    {
+        $form = input('post.');
+
+        $data = array(
+            'role_auth' => $form['checkedAuth']
+        );
+
+        $role_id = (int)$form['role_id'];
+        $isExist = $this->where('role_id', $role_id)->count();
+
+        if ($isExist) {
+            return $this->where('role_id', $role_id)->update($data);
+        } else {
+            return array('status'=>-1, 'msg'=>'数据错误，请重试', 'result'=>'');
+        }
     }
 }
