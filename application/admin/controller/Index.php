@@ -11,7 +11,8 @@
  */
 namespace app\admin\controller;
 
-use app\admin\model\AdminMenu;
+use app\admin\model\Admin_menu;
+use library\PasswordHash;
 use library\Tree;
 use think\Request;
 
@@ -61,8 +62,9 @@ class Index extends Base {
     {
         if (!Request::instance()->isPost()) exit;
 
-        $menu = new AdminMenu();
-        $result = $menu->get_menu();
+        // 获取所有允许显示的菜单数据
+        $menu = new Admin_menu();
+        $result = $menu->get_menu(null, 1);
 
         // 生成无限级菜单数组数据
         $tree = Tree::makeTree($result, array(
@@ -141,5 +143,20 @@ class Index extends Base {
      */
     public function test()
     {
+        /*$rule  = "/^([\x{4e00}-\x{9fa5}]+$|([a-z]+\s?)+)$/u";
+        preg_match($rule,'a a d',$result);
+        dump($result);*/
+        /*$pass = new PasswordHash(8, false);
+
+        $t1 = $pass->HashPassword('admin888');
+        echo $t1;
+
+        $t2 = $pass->CheckPassword('admin888', $t1);
+
+        if ($t2) {
+            echo '密码正确';
+        } else {
+            echo '密码错误';
+        }*/
     }
 }

@@ -105,3 +105,18 @@
 #Validform_msg a.Validform_close:link,#Validform_msg a.Validform_close:visited{line-height:22px; position:absolute; right:8px; top:0px; color:#fff; text-decoration:none;}
 #Validform_msg a.Validform_close:hover{color:#cc0;}
 #Validform_msg .Validform_info{padding:8px;border:1px solid #000; border-top:none; text-align:left;}
+
+/* 弹出层zTree容器样式 */
+.tree-box{
+    margin-bottom: 0;
+    width: auto;
+    min-width: 320px;
+}
+.tree-box .box-body{
+    height: 320px;
+    overflow-y: scroll;
+}
+.tree-box .ztree *{font-size: 14px;}
+.tree-box .ztree li{line-height: 1.8em;}
+.tree-box .ztree li a{display: inline;}
+.tree-box .ztree li a:hover{text-decoration: none;}

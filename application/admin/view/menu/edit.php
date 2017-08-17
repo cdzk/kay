@@ -45,8 +45,8 @@
     <section class="content-header clearfix">
       <h5>菜单管理</h5>
       <ol class="breadcrumb">
-        <li><i class="fa fa-home"></i> 管理中心</a></li>
-        <li>系统</a></li>
+        <li><i class="fa fa-home"></i> 管理中心</li>
+        <li>系统</li>
         <li class="active">菜单管理</li>
       </ol>
     </section>
@@ -126,11 +126,11 @@
                                 <label for="menu_status">显示</label>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" class="minimal" id="menu_status_1" name="menu_status" value="1" {$menu.menu_status==1 ? 'checked' : ''}>
+                                        <input type="radio" class="minimal" id="menu_status_1" name="menu_status" value="1" {$menu.menu_status ?= 'checked'}>
                                         是
                                     </label>
                                     <label>
-                                        <input type="radio" class="minimal" id="menu_status_2" name="menu_status" value="0" {$menu.menu_status==0 ? 'checked' : ''}>
+                                        <input type="radio" class="minimal" id="menu_status_2" name="menu_status" value="0" {$menu.menu_status ?: 'checked'}>
                                         否
                                     </label>
                                 </div>
@@ -183,6 +183,6 @@
             radioClass: 'iradio_minimal-blue'
         });
 
-        ycApp.initValidator();
+        syApp.initValidator();
     });
 </script>

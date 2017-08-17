@@ -12,7 +12,7 @@
 
 namespace app\admin\controller;
 
-use app\admin\model\AdminMenu;
+use app\admin\model\Admin_menu;
 use library\Tree;
 use think\Request;
 
@@ -23,8 +23,9 @@ class Menu extends Base {
     public function _initialize()
     {
         // 获取所有菜单数据
-        $this->menu = new AdminMenu();
+        $this->menu = new Admin_menu();
         $menu_data = $this->menu->get_menu();
+
         // 生成无限级菜单数组数据
         $this->menu_tree = Tree::makeTreeForHtml($menu_data, array(
             'primary_key' => 'menu_id',
@@ -50,6 +51,7 @@ class Menu extends Base {
      * add
      * 添加菜单
      *
+     * @param int $parent_id 父级菜单id 有值时表示添加子菜单
      * @return \think\response\View
      */
     public function add($parent_id=null)
@@ -60,6 +62,13 @@ class Menu extends Base {
         return view('menu/add');
     }
 
+    /**
+     * edit
+     * 修改菜单
+     *
+     * @param int $menu_id 菜单id
+     * @return \think\response\View
+     */
     public function edit($menu_id)
     {
         if (empty($menu_id)) exit;
@@ -71,8 +80,8 @@ class Menu extends Base {
     }
 
     /**
-     * add_save
-     * 保存新增菜单
+     * save
+     * 保存菜单数据 添加|修改
      *
      * @return mixed
      */
@@ -84,7 +93,7 @@ class Menu extends Base {
 
         if (!is_array($result)) {
             if ($result) {
-                return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>array('backUrl'=>url('admin/Menu/index'))));
+                return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>array('jumpUrl'=>url('admin/Menu/index'))));
             } else {
                 return json(array('status'=>0, 'msg'=>'操作失败', 'result'=>''));
             }
@@ -93,7 +102,64 @@ class Menu extends Base {
         }
     }
 
-    // TODO 菜单排序
+    /**
+     * sort
+     * 菜单排序
+     *
+     * @return \think\response\Json
+     */
+    public function sort()
+    {
+        if (!Request::instance()->isPost()) exit;
 
-    // TODO 删除菜单
+        $result = $this->menu->sort_menu();
+
+        if ($result) {
+            return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>array('jumpUrl'=>$_SERVER['HTTP_REFERER'])));
+        } else {
+            return json(array('status'=>0, 'msg'=>'操作失败', 'result'=>''));
+        }
+    }
+
+    /**
+     * del
+     * 删除菜单
+     *
+     * @return \think\response\Json
+     */
+    public function del()
+    {
+        if (!Request::instance()->isAjax()) exit;
+
+        $result = $this->menu->delete_menu();
+
+        if (!is_array($result)) {
+            if ($result) {
+                return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>''));
+            } else {
+                return json(array('status'=>0, 'msg'=>'操作失败', 'result'=>''));
+            }
+        } else {
+            return json($result);
+        }
+    }
+
+    /**
+     * status
+     * 设置菜单状态
+     *
+     * @return \think\response\Json
+     */
+    public function status()
+    {
+        if (!Request::instance()->isAjax()) exit;
+
+        $result = $this->menu->status_menu();
+
+        if ($result) {
+            return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>''));
+        } else {
+            return json(array('status'=>0, 'msg'=>'操作失败', 'result'=>''));
+        }
+    }
 }
