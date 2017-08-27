@@ -2,13 +2,13 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>系统用户 > 用户管理</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta name="robots" content="noindex, nofollow">
 
     <!-- Bootstrap 3.3.6 -->
-    <link rel="stylesheet" href="{$Think.PATH_STATIC}bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{$Think.PATH_ADMIN_STATIC}bootstrap/css/bootstrap.min.css">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -17,16 +17,16 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css">
 
     <!-- jquery-treegrid style -->
-    <link rel="stylesheet" href="{$Think.PATH_STATIC}plugins/jquery-treegrid/css/jquery.treegrid.css">
+    <link rel="stylesheet" href="{$Think.PATH_ADMIN_STATIC}plugins/jquery-treegrid/css/jquery.treegrid.css">
 
     <!-- Theme style -->
-    <link rel="stylesheet" href="{$Think.PATH_STATIC}dist/css/AdminLTE.css">
+    <link rel="stylesheet" href="{$Think.PATH_ADMIN_STATIC}dist/css/AdminLTE.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="{$Think.PATH_STATIC}dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="{$Think.PATH_ADMIN_STATIC}dist/css/skins/_all-skins.min.css">
 
     <!-- yc style -->
-    <link rel="stylesheet" href="{$Think.PATH_STATIC}dist/css/yc_style.css">
+    <link rel="stylesheet" href="{$Think.PATH_ADMIN_STATIC}dist/css/admin.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -102,7 +102,7 @@
                                     <td class="text-center">
                                         <a class="btn btn-primary" href="{:url('admin/User/edit', ['user_id'=>$vo.user_id])}" role="button">修改</a>
                                         <a class="btn btn-primary" href="javascript:void(0);"
-                                           onclick="syApp.ajaxDel('{:url('admin/User/del')}', 'user_id={$vo.user_id}')"
+                                           onclick="admin.ajaxDel('{:url('admin/User/del')}', 'user_id={$vo.user_id}')"
                                            role="button">删除</a>
                                     </td>
                                 </tr>
@@ -126,19 +126,19 @@
 <!-- jQuery 2.2.3 -->
 <script src="{$Think.PATH_COMMON_STATIC}plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="{$Think.PATH_STATIC}bootstrap/js/bootstrap.min.js"></script>
+<script src="{$Think.PATH_ADMIN_STATIC}bootstrap/js/bootstrap.min.js"></script>
 <!-- layer 3.0.3 -->
 <script src="{$Think.PATH_COMMON_STATIC}plugins/layer/layer.js"></script>
 
 <!-- jquery-treegrid 0.3.0 -->
-<script src="{$Think.PATH_STATIC}plugins/jquery-treegrid/js/jquery.treegrid.js"></script>
-<script src="{$Think.PATH_STATIC}plugins/jquery-treegrid/js/jquery.treegrid.bootstrap3.js"></script>
+<script src="{$Think.PATH_ADMIN_STATIC}plugins/jquery-treegrid/js/jquery.treegrid.js"></script>
+<script src="{$Think.PATH_ADMIN_STATIC}plugins/jquery-treegrid/js/jquery.treegrid.bootstrap3.js"></script>
 
 <!-- AdminLTE App -->
-<script src="{$Think.PATH_STATIC}dist/js/yc_app.js"></script>
+<script src="{$Think.PATH_ADMIN_STATIC}dist/js/admin.js"></script>
 <script>
     $(function () {
-        syApp.treeTable(2);
+        admin.treeTable(2);
     });
 
     /**
@@ -163,7 +163,7 @@
         };
 
         var waitLoad; // 等待动画调用变量
-        syApp.aReq('post', '{:url('admin/User/status')}', {user_id:user_id, user_status:user_status}, 'json',
+        admin.aReq('post', '{:url('admin/User/status')}', {user_id:user_id, user_status:user_status}, 'json',
             function () {
                 waitLoad = layer.load(1, {
                     shade: [0.5,'#000']

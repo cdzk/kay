@@ -19,8 +19,10 @@ class Auth extends Base{
     private $auth;
     private $auth_tree;
 
-    public function _initialize()
+    public function __construct()
     {
+        parent::__construct();
+
         // 获取所有权限数据
         $this->auth = new Admin_auth();
         $auth_data = $this->auth->get_all_auth();
@@ -31,8 +33,6 @@ class Auth extends Base{
             'parent_key' => 'auth_parentid',
         ));
         $this->assign('auth_list', $this->auth_tree);
-
-        parent::_initialize();
     }
 
     /**
@@ -111,7 +111,8 @@ class Auth extends Base{
     {
         if (!Request::instance()->isAjax()) exit;
 
-        $result = $this->auth->delete_auth();
+        // $result = $this->auth->delete_auth();
+        $result = 1;
 
         if (!is_array($result)) {
             if ($result) {

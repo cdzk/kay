@@ -11,31 +11,39 @@
  */
 
 namespace app\admin\model;
-use think\Loader;
+use think\Db;
 use think\Model;
+use think\Session;
+use think\Validate;
 
 class Admin_menu extends Model {
+
+    protected $validate;
 
     protected function initialize()
     {
         // 加载验证器
-        $this->validate = Loader::validate('AdminMenu');
+        $rule =   [
+            ['menu_parentid', 'require|token:__hash__', '上级菜单不能为空'],
+            ['menu_name', 'require', '菜单名称不能为空'],
+            ['menu_module', '[a-z]+$', '模块名只允许小写英文字母'],
+            ['menu_controller', '^[A-Z][A-Za-z]+$', '控制器名只允许为英文字母，且首字母必须为大写'],
+            ['menu_action', '[a-zA-Z_]+$', '方法名只允许为英文字母与下划线'],
+        ];
+
+        $this->validate = new Validate($rule);
 
         parent::initialize();
     }
 
     /**
      * get_menu
-     * [根据父级id]获取管理菜单数据
+     * 获取全部管理菜单数据
      *
-     * @param int $parent_id 管理菜单父级id
-     * @param int $status 菜单状态 默认为全部，1=显示，0=不显示
      * @return array
      */
-    public function get_menu($parent_id=null, $status=null)
+    public function get_menu()
     {
-        if (isset($parent_id)) $this->where('menu_parentid', $parent_id);
-        if (isset($status)) $this->where('menu_status', $status);
         $this->order('menu_sort desc, menu_id asc');
         $menu = $this->select();
 
@@ -153,5 +161,42 @@ class Admin_menu extends Model {
         $menu_status = input('post.menu_status');
 
         return $this->where('menu_id', $menu_id)->update(array('menu_status'=>$menu_status));
+    }
+
+    /**
+     * get_admin_menu
+     * [根据父级id]获取管理菜单数据
+     * 并根据当前登录的管理用户角色查询菜单数据
+     *
+     * @param int $parent_id 管理菜单父级id
+     * @return array
+     */
+    public function get_admin_menu($parent_id=null)
+    {
+        // 从session获取当前登录的管理用户信息
+        $getSessionUser = unserialize(Session::get('user', 'admin'));
+
+        // 获取当前登录管理用户的角色的菜单权限数据
+        $user = Db::name('admin_user')
+            ->alias('au')
+            ->join('admin_role ar', 'au.user_roleid=ar.role_id', 'LEFT')
+            ->where('au.user_id', $getSessionUser['user_id'])
+            ->field('ar.role_menu')
+            ->find();
+
+        // 查询获取管理菜单灵气
+        if ($user['role_menu'] !== 'all') $this->where('menu_id', 'in', $user['role_menu']);
+        if (isset($parent_id)) $this->where('menu_parentid', $parent_id);
+        $this->where('menu_status', 1);
+        $this->order('menu_sort desc, menu_id asc');
+        $menu = $this->select();
+
+        $data = array();
+        foreach ($menu as $key=>$val)
+        {
+            $data[$key] = $val->toArray(); // toArray() 对象转为数组
+        }
+
+        return $data;
     }
 }

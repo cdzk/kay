@@ -15,6 +15,7 @@ namespace app\admin\model;
 use library\PasswordHash;
 use think\Loader;
 use think\Model;
+use think\Session;
 
 class Admin_user extends Model {
 
@@ -38,8 +39,8 @@ class Admin_user extends Model {
      */
     public function get_query_user()
     {
-        $this->alias('a');
-        $this->join('admin_role b', 'a.user_roleid=b.role_id', 'LEFT');
+        $this->alias('au');
+        $this->join('admin_role ar', 'au.user_roleid=ar.role_id', 'LEFT');
         return $this->select();
     }
 
@@ -138,5 +139,74 @@ class Admin_user extends Model {
         $user_status = input('post.user_status');
 
         return $this->where('user_id', $user_id)->update(array('user_status'=>$user_status));
+    }
+
+    // TODO 用户登录数据处理
+
+    /**
+     * login_user
+     * 管理用户登录请求数据处理
+     *
+     * @author zhengkai
+     * @date 2017-08-27
+     *
+     * @return array
+     */
+    public function login_user()
+    {
+        $form = input('post.');
+
+        // 验证图形验证码
+        $getVerifyCode = Session::get('verify_code', 'common');
+        if ($form['verify_code'] !== $getVerifyCode) {
+            Session::delete('verify_code', 'common'); // 删除验证码session
+            return array('status'=>-1, 'msg'=>'验证码不正确', 'result'=>'');
+        }
+
+        // 查询用户是否存在
+        $user = $this->where('user_name', $form['user_name'])->find();
+        if (!$user) return array('status'=>-1, 'msg'=>'用户名或密码不正确', 'result'=>'');
+
+        // 验证密码
+        $verifyPassword = $this->encryptPassword->CheckPassword($form['user_password'], $user['user_password']);
+        if (!$verifyPassword) return array('status'=>-1, 'msg'=>'用户名或密码不正确', 'result'=>'');
+
+        // 检查用户状态
+        if (!$user['user_status']) return array('status'=>-1, 'msg'=>'该用户已被锁定，请与管理员联系', 'result'=>'');
+
+        // 更新用户登录数据
+        $user_update = [
+            'user_login_last_time' => time() // 用户最后一次登录时间
+        ];
+        $this->where('user_id', $user['user_id'])->update($user_update);
+
+        // 保存用户必要信息到session
+        $user_data = [
+            'user_id' => $user['user_id'], // 用户id
+            'user_roleid' => $user['user_roleid'], // 用户角色
+        ];
+
+        Session::set('user', serialize($user_data), 'admin');
+
+        return array('status'=>1, 'msg'=>'登录成功', 'result'=>array('jumpUrl'=>url('admin/Index/index')));
+    }
+
+    /**
+     * get_login_user
+     * 获取当前登录的管理用户数据（信息）
+     *
+     * @author zhengkai
+     * @date 2017-08-27
+     *
+     * @param int $user_id 用户ID
+     * @return array|false|\PDOStatement|string|Model
+     */
+    public function get_login_user($user_id)
+    {
+        return $this->alias('au')
+            ->join('admin_role ar', 'au.user_roleid=ar.role_id', 'LEFT')
+            ->where('au.user_id', $user_id)
+            ->field('au.user_id, au.user_name, au.user_login_last_ip, au.user_login_last_time, ar.role_name')
+            ->find();
     }
 }

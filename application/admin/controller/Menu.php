@@ -20,8 +20,10 @@ class Menu extends Base {
     private $menu;
     private $menu_tree;
 
-    public function _initialize()
+    public function __construct()
     {
+        parent::__construct();
+
         // 获取所有菜单数据
         $this->menu = new Admin_menu();
         $menu_data = $this->menu->get_menu();
@@ -32,8 +34,6 @@ class Menu extends Base {
             'parent_key' => 'menu_parentid',
         ));
         $this->assign('menu_list', $this->menu_tree);
-
-        parent::_initialize();
     }
 
     /**

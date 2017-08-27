@@ -18,12 +18,13 @@ use think\Request;
 class Role extends Base
 {
     private $role;
-    public function _initialize()
+    public function __construct()
     {
+        parent::__construct();
+
         // 实例化系统用户角色模型
         $this->role = new Admin_role();
 
-        parent::_initialize();
     }
 
     /**

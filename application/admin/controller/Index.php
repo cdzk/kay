@@ -12,11 +12,25 @@
 namespace app\admin\controller;
 
 use app\admin\model\Admin_menu;
+use app\admin\model\Admin_user;
 use library\PasswordHash;
 use library\Tree;
 use think\Request;
+use think\Session;
 
 class Index extends Base {
+    protected $loginUser;
+    protected $admin_user;
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->loginUser = unserialize(Session::get('user', 'admin'));
+
+        // 实例化管理用户模型
+        $this->admin_user = new Admin_user();
+
+    }
 
     /**
      * index
@@ -25,6 +39,9 @@ class Index extends Base {
      */
     public function index()
     {
+        $data = $this->admin_user->get_login_user($this->loginUser['user_id']);
+        $this->assign('user', $data);
+
         return view('index/home');
     }
 
@@ -64,7 +81,7 @@ class Index extends Base {
 
         // 获取所有允许显示的菜单数据
         $menu = new Admin_menu();
-        $result = $menu->get_menu(null, 1);
+        $result = $menu->get_admin_menu(null, 1);
 
         // 生成无限级菜单数组数据
         $tree = Tree::makeTree($result, array(
