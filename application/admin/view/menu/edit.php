@@ -2,13 +2,13 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>修改菜单</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta name="robots" content="noindex, nofollow">
 
     <!-- Bootstrap 3.3.6 -->
-    <link rel="stylesheet" href="{$Think.PATH_STATIC}bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{$Think.PATH_ADMIN_STATIC}bootstrap/css/bootstrap.min.css">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -17,18 +17,18 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css">
 
     <!-- Select2 -->
-    <link rel="stylesheet" href="{$Think.PATH_STATIC}plugins/select2/select2.min.css">
+    <link rel="stylesheet" href="{$Think.PATH_ADMIN_STATIC}plugins/select2/select2.min.css">
     <!-- iCheck for checkboxes and radio inputs -->
-    <link rel="stylesheet" href="{$Think.PATH_STATIC}plugins/icheck-1.0.2/skins/all.css">
+    <link rel="stylesheet" href="{$Think.PATH_ADMIN_STATIC}plugins/icheck-1.0.2/skins/all.css">
 
     <!-- Theme style -->
-    <link rel="stylesheet" href="{$Think.PATH_STATIC}dist/css/AdminLTE.css">
+    <link rel="stylesheet" href="{$Think.PATH_ADMIN_STATIC}dist/css/AdminLTE.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="{$Think.PATH_STATIC}dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="{$Think.PATH_ADMIN_STATIC}dist/css/skins/_all-skins.min.css">
 
     <!-- yc style -->
-    <link rel="stylesheet" href="{$Think.PATH_STATIC}dist/css/yc_style.css">
+    <link rel="stylesheet" href="{$Think.PATH_ADMIN_STATIC}dist/css/admin.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -157,21 +157,21 @@
 <!-- jQuery 2.2.3 -->
 <script src="{$Think.PATH_COMMON_STATIC}plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="{$Think.PATH_STATIC}bootstrap/js/bootstrap.min.js"></script>
+<script src="{$Think.PATH_ADMIN_STATIC}bootstrap/js/bootstrap.min.js"></script>
 <!-- layer 3.0.3 -->
 <script src="{$Think.PATH_COMMON_STATIC}plugins/layer/layer.js"></script>
 
 <!-- Select2 -->
-<script src="{$Think.PATH_STATIC}plugins/select2/select2.full.min.js"></script>
+<script src="{$Think.PATH_ADMIN_STATIC}plugins/select2/select2.full.min.js"></script>
 <!-- iCheck 1.0.1 -->
-<script src="{$Think.PATH_STATIC}plugins/icheck-1.0.2/icheck.min.js"></script>
+<script src="{$Think.PATH_ADMIN_STATIC}plugins/icheck-1.0.2/icheck.min.js"></script>
 <!-- Validform 5.3.2 -->
 <script src="{$Think.PATH_COMMON_STATIC}plugins/Validform/Validform_v5.3.2.js"></script>
 <!-- jquery-form 4.2.1 -->
 <script src="{$Think.PATH_COMMON_STATIC}plugins/jQueryForm/jquery.form.min.js"></script>
 
 <!-- AdminLTE App -->
-<script src="{$Think.PATH_STATIC}dist/js/yc_app.js"></script>
+<script src="{$Think.PATH_ADMIN_STATIC}dist/js/admin.js"></script>
 <script>
     $(function () {
         //Initialize Select2 Elements
@@ -183,6 +183,6 @@
             radioClass: 'iradio_minimal-blue'
         });
 
-        syApp.initValidator();
+        admin.initValidator();
     });
 </script>

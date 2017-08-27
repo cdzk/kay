@@ -2,13 +2,13 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>系统用户 > 角色管理</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta name="robots" content="noindex, nofollow">
 
     <!-- Bootstrap 3.3.6 -->
-    <link rel="stylesheet" href="{$Think.PATH_STATIC}bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{$Think.PATH_ADMIN_STATIC}bootstrap/css/bootstrap.min.css">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -17,19 +17,19 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css">
 
     <!-- jquery-treegrid style -->
-    <link rel="stylesheet" href="{$Think.PATH_STATIC}plugins/jquery-treegrid/css/jquery.treegrid.css">
+    <link rel="stylesheet" href="{$Think.PATH_ADMIN_STATIC}plugins/jquery-treegrid/css/jquery.treegrid.css">
 
     <!-- zTree -->
-    <link rel="stylesheet" href="{$Think.PATH_STATIC}plugins/zTree/css/zTreeStyle/zTreeStyle.css">
+    <link rel="stylesheet" href="{$Think.PATH_ADMIN_STATIC}plugins/zTree/css/zTreeStyle/zTreeStyle.css">
 
     <!-- Theme style -->
-    <link rel="stylesheet" href="{$Think.PATH_STATIC}dist/css/AdminLTE.css">
+    <link rel="stylesheet" href="{$Think.PATH_ADMIN_STATIC}dist/css/AdminLTE.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="{$Think.PATH_STATIC}dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="{$Think.PATH_ADMIN_STATIC}dist/css/skins/_all-skins.min.css">
 
     <!-- yc style -->
-    <link rel="stylesheet" href="{$Think.PATH_STATIC}dist/css/yc_style.css">
+    <link rel="stylesheet" href="{$Think.PATH_ADMIN_STATIC}dist/css/admin.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -104,7 +104,7 @@
                                         <a class="btn btn-primary" href="javascript:void(0);" role="button">成员管理</a>
                                         <a class="btn btn-primary {$vo.role_id===1 ? 'disabled' : ''}" href="{$vo.role_id===1 ? '' : url('admin/Role/edit', ['role_id'=>$vo.role_id])}" role="button">修改</a>
                                         <a class="btn btn-primary {$vo.role_id===1 ? 'disabled' : ''}" href="javascript:void(0);"
-                                           {$vo.role_id===1 ? '' : 'onclick="syApp.ajaxDel(\\''.url('admin/Role/del').'\\', \\'role_id='.$vo.role_id.'\\');"'}
+                                           {$vo.role_id===1 ? '' : 'onclick="admin.ajaxDel(\\''.url('admin/Role/del').'\\', \\'role_id='.$vo.role_id.'\\');"'}
                                            role="button">删除</a>
                                     </td>
                                 </tr>
@@ -130,17 +130,17 @@
 <!-- jQuery 2.2.3 -->
 <script src="{$Think.PATH_COMMON_STATIC}plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="{$Think.PATH_STATIC}bootstrap/js/bootstrap.min.js"></script>
+<script src="{$Think.PATH_ADMIN_STATIC}bootstrap/js/bootstrap.min.js"></script>
 <!-- layer 3.0.3 -->
 <script src="{$Think.PATH_COMMON_STATIC}plugins/layer/layer.js"></script>
 
 <!-- zTree -->
-<script src="{$Think.PATH_STATIC}plugins/zTree/js/jquery.ztree.all.min.js"></script>
+<script src="{$Think.PATH_ADMIN_STATIC}plugins/zTree/js/jquery.ztree.all.min.js"></script>
 <!-- jquery-form 4.2.1 -->
 <script src="{$Think.PATH_COMMON_STATIC}plugins/jQueryForm/jquery.form.min.js"></script>
 
 <!-- AdminLTE App -->
-<script src="{$Think.PATH_STATIC}dist/js/yc_app.js"></script>
+<script src="{$Think.PATH_ADMIN_STATIC}dist/js/admin.js"></script>
 <script>
     /**
      * 设置角色状态
@@ -164,7 +164,7 @@
         };
 
         var waitLoad; // 等待动画调用变量
-        syApp.aReq('post', '{:url(\'admin/Role/status\')}', {role_id:role_id, role_status:role_status}, 'json',
+        admin.aReq('post', '{:url(\'admin/Role/status\')}', {role_id:role_id, role_status:role_status}, 'json',
             function () {
                 waitLoad = layer.load(1, {
                     shade: [0.5,'#000']
@@ -173,7 +173,7 @@
             function (d) {
                 layer.close(waitLoad);
                 layer.msg(d['msg']);
-                if (d['status']) status();
+                if (d['status']>0) status();
             });
     }
 
@@ -206,6 +206,11 @@
                 var option = {
                     container: $(treeDom),
                     setting: {
+                        check: {
+                            enable: true,
+                            chkStyle: 'checkbox',
+                            chkboxType: {'Y':'p', 'N':'s'}
+                        },
                         async: {
                             url: ajaxUrl,
                             type:"post",
@@ -214,7 +219,7 @@
                                 // 将从数据库中获取到的角色已有权限赋值到隐藏表单
                                 $('input[name="checkedAuth"]').val(responseData.role_tree);
 
-                                console.log(responseData.tree);
+                                // console.log(responseData.tree);
 
                                 // 加载指定数据到tree
                                 return responseData.tree;
@@ -287,15 +292,15 @@
 
                         // 节点id与数据库中保存的id进行匹配，true 则自动选中，
                         // 自动选中时不选中序号为0的节点，解决根节点选中以后所有节点被选中的问题
-                        if(dataId.match(_id) && i>0) {
-                            treeObj.checkNode(nodes[i], true, true);
+                        if(dataId.match(_id)) {
+                            treeObj.checkNode(nodes[i], true, false);
                         }
                     }
 
                 }
 
                 //加载树插件
-                var _zTree = syApp.zTree(option);
+                var _zTree = admin.zTree(option);
 
                 // 给取消按钮绑定事件
                 $('button[name="setAuth-btn-cancel"]').on('click', function () {
@@ -303,7 +308,7 @@
                 });
 
                 // 加载表单提交插件
-                syApp.ajaxFormSubmit($(dom+' form'));
+                admin.ajaxFormSubmit($(dom+' form'));
             }
         });
     }

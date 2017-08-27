@@ -12,8 +12,12 @@
 
 namespace app\admin\model;
 
+use library\Tree;
+use think\Db;
 use think\Loader;
 use think\Model;
+use think\Request;
+use think\Session;
 
 class Admin_auth extends Model {
     protected function initialize()
@@ -108,6 +112,101 @@ class Admin_auth extends Model {
             return array('status'=>-1, 'msg'=>'抱歉，请先删除子权限', 'result'=>'');
         } else {
             return $this->destroy($auth_id);
+        }
+    }
+
+    /**
+     * check_auth
+     * 对当前登录的管理用户进行管理权限验证
+     *
+     * @author zhengkai
+     * @date 2017-08-27
+     *
+     * @return bool
+     */
+    public function check_auth()
+    {
+        // 从session获取当前登录的管理用户信息
+        $getSessionUser = unserialize(Session::get('user', 'admin'));
+
+        // 获取当前登录管理用户的角色的管理权限数据
+        $user = Db::name('admin_user')
+            ->alias('au')
+            ->join('admin_role ar', 'au.user_roleid=ar.role_id', 'LEFT')
+            ->where('au.user_id', $getSessionUser['user_id'])
+            ->field('ar.role_auth')
+            ->find();
+
+        // 判断是否为超级管理员
+        if ($user['role_auth'] === 'super') return true;
+
+        /*** 获取权限数据 ***/
+        $module = null; // 模块
+        $this->where('auth_id', 'in', $user['role_auth']);
+        $this->field('auth_id, auth_parentid, auth_module');
+        $auth = $this->select();
+        foreach ($auth as $m_key=>$m_val) {
+            $module .= $m_val['auth_module'].',';
+        }
+        $module = array_unique(explode(',', rtrim($module, ',')));
+
+        $controller = []; // 控制器
+        foreach ($module as $c_key=>$c_val) {
+            $am[$c_key] = $this->where('auth_id', 'in', $user['role_auth'])
+                ->where('auth_module', $c_val)
+                ->field('auth_id, auth_parentid, auth_controller')
+                ->select();
+            $ac[$c_key] = null;
+            foreach ($am[$c_key] as $ac_key=>$ac_val){
+                $ac[$c_key] .= $ac_val['auth_controller'].',';
+            }
+            $ac[$c_key] = array_unique(explode(',', rtrim($ac[$c_key], ',')));
+            $controller[$c_val] = $ac[$c_key];
+        }
+
+        $action = []; // 方法
+        foreach ($controller as $a_key=>$a_val) {
+            foreach ($a_val as $a2_key=>$a2_val) {
+                $ac[$a2_key] = $this->where('auth_id', 'in', $user['role_auth'])
+                    ->where('auth_module', $a_key)
+                    ->where('auth_controller', $a2_val)
+                    ->field('auth_id, auth_parentid, auth_action')
+                    ->select();
+
+                $aa[$a2_key] = null;
+                foreach ($ac[$a2_key] as $ac_key=>$ac_val){
+                    $aa[$a2_key] .= $ac_val['auth_action'].',';
+                }
+                $aa[$a2_key] = rtrim($aa[$a2_key], ',');
+                $action[$a_key][$a2_val] = $aa[$a2_key];
+            }
+        }
+
+        // 最终拼接权限数据
+        $arr = $action;
+        /*** 获取权限数据 end ***/
+
+        // 获取当前模块、控制器、方法名
+        $request = Request::instance();
+        $currModule = $request->module();
+        $currController = $request->controller();
+        $currAction = $request->action();
+
+        // 对 admin 模块下的 Index 控制器不进行权限控制
+        if ($currModule==='admin' && $currController==='Index') return true;
+
+        if (array_key_exists($currModule, $arr)) { // 判断是否有模块访问权限
+            if (array_key_exists($currController, $arr[$currModule])) { // 判断是否有控制器访问权限
+                if (preg_match('#'.$currAction.'#', $arr[$currModule][$currController])) { // 判断是否有方法访问权限
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
         }
     }
 }

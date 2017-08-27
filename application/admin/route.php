@@ -3,6 +3,9 @@ use think\Route;
 
 Route::rule('admin/test', 'admin/Index/test');  // 测试专用
 
+// 管理后台入口
+Route::rule('admin/login', 'admin/Entry/login');    // 管理员登录
+
 // 管理首页
 Route::rule('admin/index', 'admin/Index/index');    // 管理后台首页
 Route::rule('admin/home', 'admin/Index/main');      // 管理后台首页

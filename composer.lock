@@ -4,20 +4,63 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ccd2ccd2f0483c3310f399349de7528",
+    "content-hash": "7073ab8d3692a5b91b0415b70d4666a4",
     "packages": [
+        {
+            "name": "lifei6671/php-captcha",
+            "version": "v0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lifei6671/php-captcha.git",
+                "reference": "ad25d4005f730aad5a7c38f269bb4b26a7bf5b54"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/lifei6671/php-captcha/ad25d4005f730aad5a7c38f269bb4b26a7bf5b54.zip",
+                "reference": "ad25d4005f730aad5a7c38f269bb4b26a7bf5b54",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Minho\\Captcha\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Minho",
+                    "email": "lifei6671@163.com",
+                    "homepage": "https://www.iminho.me",
+                    "role": "Developer"
+                }
+            ],
+            "description": "One php captcha",
+            "homepage": "https://github.com/lifei6671/php-captcha",
+            "keywords": [
+                "captcha"
+            ],
+            "time": "2017-01-12T02:32:31+00:00"
+        },
         {
             "name": "topthink/framework",
             "version": "v5.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "90d71bbc76d0915e0cf51ecad57350c0c79d5a3f"
+                "reference": "e428c43ec5138c989cfdb38ac300a964ad77f9cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/top-think/framework/90d71bbc76d0915e0cf51ecad57350c0c79d5a3f.zip",
-                "reference": "90d71bbc76d0915e0cf51ecad57350c0c79d5a3f",
+                "url": "https://files.phpcomposer.com/files/top-think/framework/e428c43ec5138c989cfdb38ac300a964ad77f9cb.zip",
+                "reference": "e428c43ec5138c989cfdb38ac300a964ad77f9cb",
                 "shasum": ""
             },
             "require": {
@@ -55,7 +98,7 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2017-07-04T03:46:13+00:00"
+            "time": "2017-07-05T03:35:06+00:00"
         },
         {
             "name": "topthink/think-installer",

@@ -10,10 +10,6 @@
  * @File： common.php
  */
 
-// 自定义常量
-define('ADMIN_TITLE', '创云EMIS管理中心');    // 管理后台页面标题
-define('PATH_STATIC', '/static/admin/');    // 静态资源目录
-
 if (!function_exists('get_used_status'))
 {
     /**

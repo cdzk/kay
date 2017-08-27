@@ -1,17 +1,17 @@
 <header class="main-header">
 
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="javascript:void(0);" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><img src="{$Think.PATH_STATIC}dist/img/logo_mini.png"></span>
+        <span class="logo-mini"><img src="{$Think.PATH_ADMIN_STATIC}dist/img/logo_mini.png"></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><img src="{$Think.PATH_STATIC}dist/img/logo_large.png"></span>
+        <span class="logo-lg"><img src="{$Think.PATH_ADMIN_STATIC}dist/img/logo_large.png"></span>
     </a>
 
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
         <!-- Sidebar toggle button-->
-        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <a href="javascript:void(0);" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>
         </a>
 
@@ -35,18 +35,18 @@
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="{$Think.PATH_STATIC}dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                        <span class="hidden-xs">admin</span>
+                        <img src="{$Think.PATH_ADMIN_STATIC}dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                        <span class="hidden-xs">{$user.user_name}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header" style="height: auto;">
-                            <img src="{$Think.PATH_STATIC}dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                            <img src="{$Think.PATH_ADMIN_STATIC}dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                             <p>
-                                admin
-                                <small>用户角色：超级管理员</small>
-                                <small>登录时间：<?php echo date('Y-m-d H:i:d' ,time());?></small>
+                                {$user.user_name}
+                                <small>用户角色：{$user.role_name}</small>
+                                <small>登录时间：{$user.user_login_last_time|date='Y-m-d H:i:s', ###}</small>
                                 <small>登录IP：{$Request.ip}</small>
                             </p>
                         </li>
@@ -70,7 +70,7 @@
                                 <a href="#" class="btn btn-default btn-flat">资料修改</a>
                             </div>
                             <div class="pull-right">
-                                <a href="#" class="btn btn-default btn-flat">退出登录</a>
+                                <a href="{:url('admin/Entry/logout')}" class="btn btn-default btn-flat">退出登录</a>
                             </div>
                         </li>
                     </ul>
