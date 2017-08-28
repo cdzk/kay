@@ -18,12 +18,23 @@ use think\Loader;
 use think\Model;
 use think\Request;
 use think\Session;
+use think\Validate;
 
 class Admin_auth extends Model {
+    protected $validate;
+
     protected function initialize()
     {
         // 加载验证器
-        $this->validate = Loader::validate('AdminAuth');
+        $rule =   [
+            ['auth_parentid', 'require|token:__hash__', '所属节点不能为空'],
+            ['auth_name', 'require', '权限名称不能为空'],
+            ['auth_module', 'require|[a-z]+$', '模块名不能为空|模块名只允许小写英文字母'],
+            ['auth_controller', 'require|^[A-Z][A-Za-z]+$', '控制器名不能为空|控制器名只允许为英文字母，且首字母必须为大写'],
+            ['auth_action', 'require|[a-zA-Z_]+$', '方法名不能为空|方法名只允许为英文字母与下划线'],
+        ];
+        $this->validate = new Validate($rule);
+
 
         parent::initialize();
     }
