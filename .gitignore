@@ -3,5 +3,4 @@
 *.log
 /.idea
 /thinkphp
-/*.env
 /public/test
