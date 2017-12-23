@@ -1,6 +1,5 @@
-<<<<<<< HEAD
 .idea
 *.log
 /.idea
-/thinkphp
 /public/test
+/*.env
