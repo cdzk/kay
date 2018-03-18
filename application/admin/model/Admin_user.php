@@ -157,7 +157,7 @@ class Admin_user extends Model {
         $form = input('post.');
 
         // 验证图形验证码
-        $getVerifyCode = Session::get('verify_code', 'common');
+        $getVerifyCode = Session::get('verifyCode', 'common');
         if ($form['verify_code'] !== $getVerifyCode) {
             Session::delete('verify_code', 'common'); // 删除验证码session
             return array('status'=>-1, 'msg'=>'验证码不正确', 'result'=>'');

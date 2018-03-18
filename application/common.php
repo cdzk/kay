@@ -3,6 +3,7 @@ define('SOFT_NAME', 'SiYi Fast Develop Framework'); // 软件名称
 define('SOFT_VERSION', '1.0.1');                    // 软件版本
 define('ADMIN_TITLE', 'SYFDF管理中心');              // 管理后台页面标题
 
+define('PATH_STATIC', '/static/');                  // 静态资源目录
 define('PATH_ADMIN_STATIC', '/static/admin/');      // 管理后台静态资源目录
 define('PATH_COMMON_STATIC', '/static/common/');    // 公共静态资源目录
 define('ADMIN_SKIN', 'skin-purple');                // 管理后台配色风格
@@ -61,5 +62,33 @@ if (!function_exists('getip')) {
         $cip = isset($cips[0]) ? $cips[0] : 'unknown';
         unset($cips);
         return $cip;
+    }
+}
+
+if (!function_exists('verifyCode')) {
+    /**
+     * verify_code
+     * 图形验证码
+     *
+     * @param int $width
+     * @param int $height
+     */
+    function verifyCode($width=150, $height=44)
+    {
+        $captch = new \Minho\Captcha\CaptchaBuilder();
+
+        $captch->initialize([
+            'width' => $width,      // 宽度
+            'height' => $height,    // 高度
+            'line' => false,        // 直线
+            'curve' => true,        // 曲线
+            'noise' => 1,           // 噪点背景
+            'fonts' => []           // 字体
+        ]);
+        $captch->create();
+
+        $captch->output(1);
+
+        \think\Session::set('verifyCode', $captch->getText(), 'common');
     }
 }

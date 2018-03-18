@@ -51,20 +51,20 @@
         },
         {
             "name": "topthink/framework",
-            "version": "v5.0.13",
+            "version": "v5.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "29803c09c9e8d7385ab720d2c199c036ceedc4d3"
+                "reference": "f81c4282cdf401be44fbe1a28b3e3df425e3017f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/top-think/framework/29803c09c9e8d7385ab720d2c199c036ceedc4d3.zip",
-                "reference": "29803c09c9e8d7385ab720d2c199c036ceedc4d3",
+                "url": "https://files.phpcomposer.com/files/top-think/framework/f81c4282cdf401be44fbe1a28b3e3df425e3017f.zip",
+                "reference": "f81c4282cdf401be44fbe1a28b3e3df425e3017f",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0",
+                "php": ">=5.6.0",
                 "topthink/think-installer": "~1.0"
             },
             "require-dev": {
@@ -72,15 +72,11 @@
                 "mikey179/vfsstream": "~1.6",
                 "phpdocumentor/reflection-docblock": "^2.0",
                 "phploc/phploc": "2.*",
-                "phpunit/phpunit": "4.8.*",
-                "sebastian/phpcpd": "2.*"
+                "phpunit/phpunit": "^5.0|^6.0",
+                "sebastian/phpcpd": "2.*",
+                "squizlabs/php_codesniffer": "2.*"
             },
             "type": "think-framework",
-            "autoload": {
-                "psr-4": {
-                    "think\\": "library/think"
-                }
-            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
@@ -89,6 +85,10 @@
                 {
                     "name": "liu21st",
                     "email": "liu21st@gmail.com"
+                },
+                {
+                    "name": "yunwuxin",
+                    "email": "448901948@qq.com"
                 }
             ],
             "description": "the new thinkphp framework",
@@ -98,7 +98,7 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2017-12-13T04:44:30+00:00"
+            "time": "2018-02-02T05:39:38+00:00"
         },
         {
             "name": "topthink/think-installer",
