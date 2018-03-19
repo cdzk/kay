@@ -10,10 +10,15 @@ require.config({
         // 扩展-------------------------------
         'validform': 'plugins/Validform/Validform_v5.3.2',
         'jquery.form': 'plugins/jQueryForm/jquery.form.min',
+        'slimscroll': 'plugins/slimScroll/jquery.slimscroll.min',
+        'treegrid': 'plugins/jquery-treegrid/js/jquery.treegrid',
+        'treegrid.bootstrap3': 'plugins/jquery-treegrid/js/jquery.treegrid.bootstrap3',
+        'select2': 'plugins/select2/select2.full.min',
+        'icheck': 'plugins/icheck-1.0.2/icheck.min',
 
         // 基础-------------------------------
         'adminLTE': '../adminLTE/js/app',
-        'common': 'common',
+        'kay': 'kay',
         'admin': 'admin'
     },
     map: {
@@ -40,12 +45,37 @@ require.config({
         'jquery.form': {
             deps: ['jquery']
         },
+        'slimscroll': {
+            deps: ['jquery']
+        },
+        'treegrid': {
+            deps: [
+                'jquery',
+                'css!plugins/jquery-treegrid/css/jquery.treegrid.css'
+            ]
+        },
+        'treegrid.bootstrap3': {
+            deps: ['jquery', 'bootstrap']
+        },
+        'select2': {
+            deps: [
+                'jquery',
+                'css!plugins/select2/select2.min.css',
+                'css!/static/adminLTE/css/AdminLTE.css'
+            ]
+        },
+        'icheck': {
+            deps: [
+                'jquery',
+                'css!plugins/icheck-1.0.2/skins/all.css'
+            ]
+        },
 
         // 基础-------------------------------
         'adminLTE': {
-            deps: ['jquery']
+            deps: ['jquery', 'bootstrap']
         },
-        'common': {
+        'kay': {
             deps: ['jquery']
         },
         'admin': {

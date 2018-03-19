@@ -4,14 +4,14 @@ use think\Route;
 Route::rule('admin/test', 'admin/Index/test');  // 测试专用
 
 // 管理后台入口
-// Route::rule('admin/login', 'admin/Entry/login');    // 管理员登录
+Route::rule('admin/login', 'admin/Login/index');        // 管理员登录
+Route::rule('admin/logout', 'admin/Publics/logout');    // 管理员退出登录
 
 // 管理首页
 Route::rule('admin/index', 'admin/Index/index');    // 管理后台首页
-Route::rule('admin/home', 'admin/Index/main');      // 管理后台首页
 
 // 管理后台 > 系统 > 菜单管理
-Route::rule('admin/menu', 'admin/Menu/index');              // 列表
+/*Route::rule('admin/menu/list', 'admin/sys.Menu/index');          // 列表
 Route::group('admin/menu',[
     'add/[:parent_id]' => ['admin/Menu/add', [], ['parent_id'=>'\d+']], // 新增菜单 | 带parent_id参数则表示新增子菜单
     'edit/:menu_id' => ['admin/Menu/edit', [], ['menu_id'=>'\d+']],     // 编辑菜单
@@ -51,8 +51,4 @@ Route::group('admin/role',[
     'status' => ['admin/Role/status', ['method' => 'post']],                // 设置角色状态
     'auth_menu/[:type]' => ['admin/Role/auth_menu', ['method' => 'post']],  // 设置角色菜单权限
     'auth/[:type]' => ['admin/Role/auth', ['method' => 'post']],            // 设置角色管理权限
-]);
-
-// ajax请求
-Route::rule('admin/ajax_sys_info', 'admin/Index/sys_info');                     // 获取系统信息
-Route::rule('admin/ajax_admin_menu/:menu_parentid', 'admin/Index/admin_menu');  // 获取左侧管理菜单
+]);*/

@@ -45,4 +45,15 @@ class Publics extends Controller {
             return true;
         }
     }
+
+    /**
+     * logout
+     * 用户退出登录
+     */
+    public function logout()
+    {
+        Session::delete('user', 'admin');
+
+        $this->success('退出成功', 'admin/Login/index');
+    }
 }

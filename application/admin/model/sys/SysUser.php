@@ -33,4 +33,18 @@ class SysUser extends Model {
             return false;
         }
     }
+
+    /**
+     * getSingleUser
+     * 获取单条用户数据
+     *
+     * @param int $userId 用户id
+     * @return null|static
+     */
+    public static function getSingleUser($userId)
+    {
+        $data = self::get($userId);
+
+        return $data;
+    }
 }

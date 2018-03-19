@@ -104,20 +104,12 @@ AdminApp.prototype = {
      * 设置管理后台 main区域高度
      */
     setMainHeight: function () {
-        var $winHeight = $(window).height();
+        var $winHeight = ($(window).height())-($('.main-footer').height()+parseInt(this.mainWrapper.css('paddingTop')))+18;
+
         this.mainWrapper.css({
-            'min-height': $winHeight-56
+            'minHeight': $winHeight+'px'
         });
     },
-
-    /**
-     * 设置管理后台 iframe 高度
-     */
-    iframeHeight: function () {
-        var $body = $('.content-wrapper').height();
-        $('#main').css('height', $body+5);
-    },
-
     /**
      * 控制管理后台顶部菜单高亮，并获取左侧菜单数据
      * @param {dom} currentObj
@@ -236,6 +228,7 @@ AdminApp.prototype = {
                 'scope_string_1': /[a-zA-Z_]/ig,                        // 只允许大小写英文字母与“_”下划线
                 'scope_string_2': /^(?=.*\d.*)(?=.*[a-zA-Z].*).{2,}$/,  // 必须包含英文字母与数字
                 'scope_string_3': /[a-zA-Z0-9]+$/,                      // 只允许使用英文字母与数字
+                'scope_string_4': /[a-zA-Z.]/ig,                        // 只允许大小写英文字母与“.”点
                 'check_name': /^([\u4e00-\u9fa5]+|([a-z]+\s?)+)$/,      // 姓名格式验证 中文不允许有空格，英文最多只能有一个空格
                 'check_mobile': /^1[3-9]\d{9}$/,                        // 手机号码格式验证
                 'check_qq': /^[1-9]\d{4,}$/,                            // QQ格式验证

@@ -1,13 +1,4 @@
 <?php
-define('SOFT_NAME', 'SiYi Fast Develop Framework'); // 软件名称
-define('SOFT_VERSION', '1.0.1');                    // 软件版本
-define('ADMIN_TITLE', 'SYFDF管理中心');              // 管理后台页面标题
-
-define('PATH_STATIC', '/static/');                  // 静态资源目录
-define('PATH_ADMIN_STATIC', '/static/admin/');      // 管理后台静态资源目录
-define('PATH_COMMON_STATIC', '/static/common/');    // 公共静态资源目录
-define('ADMIN_SKIN', 'skin-purple');                // 管理后台配色风格
-
 if (!function_exists('scan_dir')) {
     /**
      * scan_dir
@@ -41,27 +32,6 @@ if (!function_exists('scan_dir')) {
                 return $files;
             }
         }
-    }
-}
-
-if (!function_exists('getip')) {
-    function getip(){
-        if(!empty($_SERVER["HTTP_CLIENT_IP"])){
-            $cip = $_SERVER["HTTP_CLIENT_IP"];
-        }
-        else if(!empty($_SERVER["HTTP_X_FORWARDED_FOR"])){
-            $cip = $_SERVER["HTTP_X_FORWARDED_FOR"];
-        }
-        else if(!empty($_SERVER["REMOTE_ADDR"])){
-            $cip = $_SERVER["REMOTE_ADDR"];
-        }
-        else{
-            $cip = '';
-        }
-        preg_match("/[\d\.]{7,15}/", $cip, $cips);
-        $cip = isset($cips[0]) ? $cips[0] : 'unknown';
-        unset($cips);
-        return $cip;
     }
 }
 

@@ -86,9 +86,9 @@
 </body>
 </html>
 <!-- requireJs 2.3.5 -->
-<script src="{$Think.PATH_STATIC}js/require.js"></script>
+<script src="{$Think.config.path.static}js/require.js"></script>
 <script>
-    require(['{$Think.PATH_STATIC}js/require.config.js'], function () {
+    require(['{$Think.config.path.static}js/require.config.js'], function () {
         require(
             [
                 'jquery',
