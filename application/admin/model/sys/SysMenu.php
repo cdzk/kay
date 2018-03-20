@@ -131,4 +131,84 @@ class SysMenu extends Model {
             return false;
         }
     }
+
+    /**
+     * sortMenu
+     * 批量更新菜单排序
+     *
+     * @param array $inputData
+     * @return bool
+     */
+    public static function updateMenuSort($inputData=[])
+    {
+        Db::startTrans();
+        try {
+            foreach ($inputData as $key=>$val) {
+                self::where('menu_id', $key)->update(['menu_sort'=>$val]);
+            }
+            Db::commit();
+            return true;
+        } catch (\Exception $e) {
+            Log::error('更新系统菜单排序【error】：'.$e->getMessage());
+            Db::rollback();
+            return false;
+        }
+    }
+
+    /**
+     * updateMenuStatus
+     * 更新菜单状态
+     *
+     * @param $menuId
+     * @param $status
+     * @return bool
+     */
+    public static function updateMenuStatus($menuId, $status)
+    {
+        Db::startTrans();
+        try {
+            self::where('menu_id', $menuId)->update(['menu_status'=>$status]);
+            Db::commit();
+            return true;
+        } catch (\Exception $e) {
+            Log::error('更新系统菜单状态【error】：'.$e->getMessage());
+            Db::rollback();
+            return false;
+        }
+    }
+
+    /**
+     * subMenuCount
+     * 子菜单统计
+     *
+     * @param $menuId
+     * @return int|string
+     */
+    public static function subMenuCount($menuId)
+    {
+        $data = self::where('menu_parentid', $menuId)->count();
+
+        return $data;
+    }
+
+    /**
+     * deleteMenu
+     * 删除菜单数据
+     *
+     * @param $menuId
+     * @return bool
+     */
+    public static function deleteMenu($menuId)
+    {
+        Db::startTrans();
+        try {
+            self::destroy($menuId);
+            Db::commit();
+            return true;
+        } catch (\Exception $e) {
+            Log::error('删除系统菜单【error】：'.$e->getMessage());
+            Db::rollback();
+            return false;
+        }
+    }
 }

@@ -89,7 +89,12 @@ class Init extends Controller {
                     } else {
                         $url = url($childVal['menu_module'].'/'.$childVal['menu_controller'].'/'.$childVal['menu_action']);
 
-                        $html .= "<li><a href=\"{$url}\"><i class=\"fa fa-circle\"></i> {$childVal['menu_name']}</a>";
+                        // 判断当前的控制器是否与菜单的相同并高亮当前菜单
+                        if (strcasecmp(request()->controller(),$childVal['menu_controller'])===0) {
+                            $html .= "<li class=\"active\"><a href=\"{$url}\"><i class=\"fa fa-circle\"></i> {$childVal['menu_name']}</a>";
+                        } else {
+                            $html .= "<li><a href=\"{$url}\"><i class=\"fa fa-circle\"></i> {$childVal['menu_name']}</a>";
+                        }
                     }
                     $html .= '</li>';
                 }

@@ -41,7 +41,46 @@ KayApp.prototype = {
             beforeSend: beforeBackcall,
             success: sBackcall
         });
-    }
+    },
+
+    /**
+     * ajax方式提交表单
+     *
+     * @description
+     *  引用 xxx/jquery.form.min.js
+     *
+     * @param {dom} formObj 表单对象
+     */
+    ajaxFormSubmit: function (formObj) {
+        var waitLoad; // 等待动画调用变量
+        formObj.ajaxForm({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            dataType: 'json',
+            beforeSubmit:function(){
+                waitLoad = layer.load(1, {
+                    shade: [0.5,'#000']
+                });
+            },
+            success: function (d) {
+                layer.close(waitLoad);
+                layer.msg(d['msg']);
+
+                if (d['code']===200) {
+                    if (typeof d['data']['jumpUrl'] !== 'undefined') { // 判断是否有跳转url地址存在，有则执行跳转
+                        setTimeout(function () {
+                            window.location.href = d['data']['jumpUrl'];
+                        }, 1000);
+                    }
+                }
+            },
+            error: function () {
+
+            }
+        });
+        return false;
+    },
 };
 
 var kay = new KayApp();

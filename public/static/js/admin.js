@@ -3,9 +3,6 @@ function AdminApp() {
 
     this.initElements();
     this.initEvents();
-
-    // 判断当前页面是否在iFrame中，是则调用关闭顶部用户菜单方法
-    if (self != top) this.closeHeadUserMenu();
 }
 
 AdminApp.prototype = {
@@ -48,59 +45,6 @@ AdminApp.prototype = {
     },
 
     /**
-     * aReq
-     * Ajax请求封装
-     *
-     * @param type 请求类型
-     * @param url 请求地址
-     * @param {object|string} data 请求时需要传递的参数
-     * @param dataType 返回数据类型
-     * @param {function} beforeBackcall 请求前的回调方法
-     * @param {function} sBackcall 请求成功后的回调方法
-     */
-    aReq: function (type, url, data, dataType, beforeBackcall, sBackcall) {
-        var beforeBackcall  =   beforeBackcall || function () {},
-            sBackcall       =   sBackcall || function () {};
-
-        $.ajax({
-            type: type,
-            url: url,
-            data: data,
-            dataType: dataType,
-            beforeSend: beforeBackcall,
-            success: sBackcall
-        });
-    },
-
-    /**
-     * closeHeadUserMenu
-     * 在iframe子页面中点击任意位置关闭父页面的顶部用户菜单
-     */
-    closeHeadUserMenu: function () {
-        $('body').click(function () {
-            var userMenu = $('.user-menu', window.parent.document);
-
-            if (userMenu.hasClass('open') && userMenu.find('.dropdown-toggle').attr('aria-expanded')=='true') {
-                userMenu.removeClass('open');
-                userMenu.find('.dropdown-toggle').attr('aria-expanded', 'false');
-            }
-        });
-    },
-
-    /**
-     * getSysInfo
-     * 获取服务器系统信息
-     */
-    getSysInfo: function () {
-        this.aReq('get', this.apiUrl+'ajax_sys_info', '', 'json', '', function (data) {
-            $('#server-time').html(data.data.currentTimes);
-            $('#server-cpu').html(data.data.cpu_usage+' <small>%</small>');
-            $('#server-ram').html(data.data.mem_usage+' <small>%</small>');
-            $('#server-disk').html(data.data.hd_avail);
-        });
-    },
-
-    /**
      * 设置管理后台 main区域高度
      */
     setMainHeight: function () {
@@ -108,29 +52,6 @@ AdminApp.prototype = {
 
         this.mainWrapper.css({
             'minHeight': $winHeight+'px'
-        });
-    },
-    /**
-     * 控制管理后台顶部菜单高亮，并获取左侧菜单数据
-     * @param {dom} currentObj
-     */
-    getAdminMenu: function (currentObj) {
-        var _this = this;
-
-        // 左侧边栏显示控制
-        if (!$('body').hasClass('sidebar-collapse')) $('body').addClass('sidebar-collapse');
-
-        // 当前菜单样式控制
-        currentObj
-            .addClass('active')
-            .siblings()
-            .removeClass('active');
-
-        var _menuParentId = currentObj.attr('data-id'); // 获取菜单父级id
-
-        // 获取管理后台左侧菜单数据，并加载左侧边栏
-        this.aReq('post', this.apiUrl+'ajax_admin_menu/'+_menuParentId, {menu_parentid:_menuParentId}, '', '', function (data) {
-            _this.adminMenuLeftUl.html(data);
         });
     },
 
@@ -254,51 +175,12 @@ AdminApp.prototype = {
                         if (typeof d['data']['jumpUrl'] !== 'undefined') { // 判断是否有跳转url地址存在，有则执行跳转
                             setTimeout(function () {
                                 window.location.href = d['data']['jumpUrl'];
-                            }, 1500);
+                            }, 1000);
                         }
                     }
                 }
             }
         });
-    },
-
-    /**
-     * ajax方式提交表单
-     *
-     * @description
-     *  引用 xxx/jquery.form.min.js
-     *
-     * @param {dom} formObj 表单对象
-     */
-    ajaxFormSubmit: function (formObj) {
-        var waitLoad; // 等待动画调用变量
-        formObj.ajaxForm({
-            type: 'POST',
-            url: $(this).attr('action'),
-            data: $(this).serialize(),
-            dataType: 'json',
-            beforeSubmit:function(){
-                waitLoad = layer.load(1, {
-                    shade: [0.5,'#000']
-                });
-            },
-            success: function (d) {
-                layer.close(waitLoad);
-                layer.msg(d['msg']);
-
-                if (d['status']>=1) {
-                    if (typeof d['result']['jumpUrl'] !== 'undefined') { // 判断是否有跳转url地址存在，有则执行跳转
-                        setTimeout(function () {
-                            window.location.href = d['result']['jumpUrl'];
-                        }, 1500);
-                    }
-                }
-            },
-            error: function () {
-
-            }
-        });
-        return false;
     },
 
     /**
@@ -312,7 +194,7 @@ AdminApp.prototype = {
 
         var waitLoad; // 等待动画调用变量
 
-        this.aReq('get', url, data, 'json',
+        kay.aReq('get', url, data, 'json',
             function () {
                 waitLoad = layer.load(1, {
                     shade: [0.5,'#000']
@@ -322,7 +204,7 @@ AdminApp.prototype = {
                 layer.close(waitLoad);
                 layer.msg(d['msg']);
 
-                if (d['status']>=1)
+                if (d['code']===200)
                     // 请求成功后移除事件对象所在tr
                     $this.parent().parent().fadeOut(500, function () {
                         $this.remove();

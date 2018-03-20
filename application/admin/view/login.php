@@ -1,3 +1,4 @@
+{__NOLAYOUT__}
 <!DOCTYPE html>
 <html>
 <head>

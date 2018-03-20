@@ -132,56 +132,67 @@ class Menu extends Init {
      */
     public function sort()
     {
-        if (!Request::instance()->isPost()) exit;
+        if (!request()->isPost()) abort(Resource::ERR_REQUEST_INVALID, '请求错误');
 
-        $result = $this->menu->sort_menu();
+        $form = Base::formCheck([
+            ['menu_sort', 'require', '参数不能为空'],
+        ]);
+
+        $result = SysMenu::updateMenuSort($form['menu_sort']);
 
         if ($result) {
-            return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>array('jumpUrl'=>$_SERVER['HTTP_REFERER'])));
+            return Resource::getBack(Resource::SUCCESS, '操作成功', [
+                'jumpUrl' => $_SERVER['HTTP_REFERER']
+            ]);
         } else {
-            return json(array('status'=>0, 'msg'=>'操作失败', 'result'=>''));
+            return Resource::getBack(Resource::ERROR, '操作失败');
         }
     }
 
     /**
-     * todo del
-     * 删除菜单
-     *
-     * @return \think\response\Json
-     */
-    public function del($menuId)
-    {
-        if (!request()->isPost() && !request()->isAjax()) abort(Resource::ERR_REQUEST_INVALID, '请求错误');;
-
-        $result = $this->menu->delete_menu();
-
-        if (!is_array($result)) {
-            if ($result) {
-                return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>''));
-            } else {
-                return json(array('status'=>0, 'msg'=>'操作失败', 'result'=>''));
-            }
-        } else {
-            return json($result);
-        }
-    }
-
-    /**
-     * todo status
      * 设置菜单状态
      *
      * @return \think\response\Json
      */
     public function status()
     {
-        if (!Request::instance()->isAjax()) exit;
+        if (!request()->isPost()) abort(Resource::ERR_REQUEST_INVALID, '请求错误');
 
-        $result = $this->menu->status_menu();
+        $form = Base::formCheck([
+            ['menu_id', 'require|integer', '菜单id不能为空|参数类型错误'],
+            ['menu_status', 'require|integer', '参数不能为空|参数类型错误'],
+        ]);
+
+        $result = SysMenu::updateMenuStatus($form['menu_id'], $form['menu_status']);
 
         if ($result) {
-            return json(array('status'=>1, 'msg'=>'操作成功', 'result'=>''));
+            return Resource::getBack(Resource::SUCCESS, '操作成功');
         } else {
-            return json(array('status'=>0, 'msg'=>'操作失败', 'result'=>''));
+            return Resource::getBack(Resource::ERROR, '操作失败');
+        }
+    }
+
+    /**
+     * 删除菜单
+     *
+     * @return \think\response\Json
+     */
+    public function del()
+    {
+        if (!request()->isAjax()) abort(Resource::ERR_REQUEST_INVALID, '请求错误');
+
+        $form = Base::formCheck([
+            ['menu_id', 'require|integer', '菜单id不能为空|参数类型错误'],
+        ]);
+
+        if (SysMenu::subMenuCount($form['menu_id'])) return Resource::getBack(Resource::ERR_DATA_INVALID, '存在子菜单不允许删除');
+
+        $result = SysMenu::deleteMenu($form['menu_id']);
+
+        if ($result) {
+            return Resource::getBack(Resource::SUCCESS, '操作成功');
+        } else {
+            return Resource::getBack(Resource::ERROR, '操作失败');
         }
     }
 }

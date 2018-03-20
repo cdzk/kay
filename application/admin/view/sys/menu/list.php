@@ -1,6 +1,6 @@
 <!-- Content Header (Page header) -->
 <section class="content-header clearfix">
-    <h5>添加菜单</h5>
+    <h5>系统菜单</h5>
     <ol class="breadcrumb">
         <li><i class="fa fa-home"></i> <a href="{:url('admin/Index/index')}">管理首页</a></li>
         <li>系统管理</li>
@@ -59,7 +59,7 @@
                                         <a class="btn btn-primary" href="{:url('admin/sys.Menu/add', ['parentId'=>$vo.menu_id])}" role="button">添加子菜单</a>
                                         <a class="btn btn-primary" href="{:url('admin/sys.Menu/edit', ['menuId'=>$vo.menu_id])}" role="button">编辑</a>
                                         <a class="btn btn-primary" href="javascript:void(0);"
-                                           onclick="admin.ajaxDel('{:url('admin/sys.Menu/del')}', 'menu_id={$vo.menu_id}')"
+                                           onclick="admin.ajaxDel('{:url(\'admin/sys.Menu/del\')}', 'menu_id={$vo.menu_id}')"
                                            role="button">删除</a>
                                     </td>
                                 </tr>
@@ -95,6 +95,7 @@
 
                 'treegrid',
                 'treegrid.bootstrap3',
+                'jquery.form',
             ],
             function ($) {
                 layer.config({
@@ -116,7 +117,9 @@
 
                     setTimeout(function () {
                         admin.treeTable(3);
-                    }, 500)
+                    }, 500);
+
+                    kay.ajaxFormSubmit($('form'));
                 });
             }
         );
@@ -144,7 +147,7 @@
         };
 
         var waitLoad; // 等待动画调用变量
-        kay.aReq('post', '{:url('admin/Menu/status')}', {menu_id:menu_id, menu_status:menu_status}, 'json',
+        kay.aReq('post', '{:url(\'admin/sys.Menu/status\')}', {menu_id:menu_id, menu_status:menu_status}, 'json',
             function () {
                 waitLoad = layer.load(1, {
                     shade: [0.5,'#000']
@@ -153,7 +156,8 @@
             function (d) {
                 layer.close(waitLoad);
                 layer.msg(d['msg']);
-                if (d['status']) status();
+
+                if (d['code']===200) status();
             });
     }
 </script>
