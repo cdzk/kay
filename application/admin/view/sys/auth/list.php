@@ -38,7 +38,7 @@
                             <tbody>
                             {volist name="auth_list" id="vo"}
                             <tr class="treegrid-{$vo.auth_id} {$vo.level ?= ' treegrid-parent-'.$vo.auth_parentid}">
-                                <td class="text-center">{$vo.auth_id}</td>
+                                <td class="text-left">{$vo.auth_id}</td>
 
                                 {if condition="$vo['level'] eq 0"}
                                 <td style="font-weight: bold;">{$vo.auth_name}</td>
@@ -46,10 +46,10 @@
                                 <td>├{:str_repeat('─',$vo.level)} {$vo.auth_name}</td>
                                 {/if}
 
-                                <td class="text-center">{$vo.auth_module}</td>
-                                <td class="text-center">{$vo.auth_controller}</td>
-                                <td class="text-center">{$vo.auth_action}</td>
-                                <td class="text-center">
+                                <td class="text-left">{$vo.auth_module}</td>
+                                <td class="text-left">{$vo.auth_controller}</td>
+                                <td class="text-left">{$vo.auth_action}</td>
+                                <td class="text-left">
                                     <a class="btn btn-primary" href="{:url('admin/sys.Auth/add', ['parentId'=>$vo.auth_id])}" role="button">添加子权限</a>
                                     <a class="btn btn-primary" href="{:url('admin/sys.Auth/edit', ['authId'=>$vo.auth_id])}" role="button">编辑</a>
                                     <a class="btn btn-primary" href="javascript:void(0);"

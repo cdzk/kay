@@ -50,9 +50,12 @@ KayApp.prototype = {
      *  引用 xxx/jquery.form.min.js
      *
      * @param {dom} formObj 表单对象
+     * @param {function} s_callback 请求成功的回调函数
      */
-    ajaxFormSubmit: function (formObj) {
+    ajaxFormSubmit: function (formObj, s_callback) {
+        var _s_callback = arguments[1]?arguments[1]:'';
         var waitLoad; // 等待动画调用变量
+
         formObj.ajaxForm({
             type: 'POST',
             url: $(this).attr('action'),
@@ -68,10 +71,15 @@ KayApp.prototype = {
                 layer.msg(d['msg']);
 
                 if (d['code']===200) {
-                    if (typeof d['data']['jumpUrl'] !== 'undefined') { // 判断是否有跳转url地址存在，有则执行跳转
-                        setTimeout(function () {
-                            window.location.href = d['data']['jumpUrl'];
-                        }, 1000);
+                    // 如果传递了回调函数则执行回调函数
+                    if (_s_callback && (typeof _s_callback === 'function')) {
+                        _s_callback();
+                    } else {
+                        if (typeof d['data']['jumpUrl'] !== 'undefined') { // 判断是否有跳转url地址存在，有则执行跳转
+                            setTimeout(function () {
+                                window.location.href = d['data']['jumpUrl'];
+                            }, 100);
+                        }
                     }
                 }
             },

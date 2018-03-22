@@ -11,6 +11,8 @@
  */
 namespace app\admin\model\sys;
 
+use think\Db;
+use think\Log;
 use think\Model;
 
 class SysUser extends Model {
@@ -43,8 +45,116 @@ class SysUser extends Model {
      */
     public static function getSingleUser($userId)
     {
-        $data = self::get($userId);
+        $data = self::get(function ($query) use ($userId) {
+            $query->alias('u')
+                ->join('sys_role r', 'u.user_roleid=r.role_id', 'left')
+                ->where('user_id', $userId)
+                ->field('u.*, r.role_name');
+        });
 
         return $data;
+    }
+
+    /**
+     * getAllUser
+     * 获取全部用户数据
+     *
+     * @return false|static[]
+     */
+    public static function getAllUser()
+    {
+        $data = self::all(function ($query) {
+            $query->alias('u')
+                ->join('sys_role r', 'u.user_roleid=r.role_id', 'left')
+                ->field('u.*,r.role_name');
+        });
+
+        return $data;
+    }
+
+    /**
+     * createUser
+     * 新增用户数据
+     *
+     * @param array $inputData
+     * @return bool
+     */
+    public static function createUser($inputData=[])
+    {
+        Db::startTrans();
+        try {
+            self::create($inputData);
+            Db::commit();
+            return true;
+        } catch (\Exception $e) {
+            Log::error('新增系统用户【error】：'.$e->getMessage());
+            Db::rollback();
+            return false;
+        }
+    }
+
+    /**
+     * updateUser
+     * 更新用户数据
+     *
+     * @param $userId
+     * @param array $inputData
+     * @return bool
+     */
+    public static function updateUser($userId, $inputData=[])
+    {
+        Db::startTrans();
+        try {
+            self::where('user_id', $userId)->update($inputData);
+            Db::commit();
+            return true;
+        } catch (\Exception $e) {
+            Log::error('更新系统用户【error】：'.$e->getMessage());
+            Db::rollback();
+            return false;
+        }
+    }
+
+    /**
+     * updateUserStatus
+     * 更新用户状态
+     *
+     * @param $userId
+     * @param $status
+     * @return bool
+     */
+    public static function updateUserStatus($userId, $status)
+    {
+        Db::startTrans();
+        try {
+            self::where('user_id', $userId)->update(['user_status'=>$status]);
+            Db::commit();
+            return true;
+        } catch (\Exception $e) {
+            Log::error('更新系统用户状态【error】：'.$e->getMessage());
+            Db::rollback();
+            return false;
+        }
+    }
+
+    /**
+     * deleteUser
+     * 删除用户数据
+     *
+     * @param $roleId
+     * @return bool
+     */
+    public static function deleteUser($userId)
+    {
+        Db::startTrans();
+        try {
+            self::destroy($userId);
+            Db::commit();
+            return true;
+        } catch (\Exception $e) {
+            Log::error('删除系统用户【error】：'.$e->getMessage());
+            Db::rollback();
+            return false;
+        }
     }
 }

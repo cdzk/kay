@@ -1,6 +1,6 @@
 <div id="setMenuAuth" style="display: none;">
     <div class="box box-solid tree-box">
-        <form id="form_setMenuAuth" action="{:url('admin/Role/auth_menu', 'type=save')}" method="post">
+        <form id="form_setMenuAuth" action="{:url('admin/sys.Role/menu_auth', ['type'=>'save'])}" method="post">
             <input type="hidden" name="role_id">
             <input type="hidden" name="checkedAuth">
             <div class="box-body">
@@ -16,7 +16,7 @@
 
 <div id="setAuth" style="display: none;">
     <div class="box box-solid tree-box">
-        <form id="form_setAuth" action="{:url('admin/Role/auth', 'type=save')}" method="post">
+        <form id="form_setAuth" action="{:url('admin/sys.Role/system_auth', ['type'=>'save'])}" method="post">
             <input type="hidden" name="role_id">
             <input type="hidden" name="checkedAuth">
             <div class="box-body">

@@ -33,6 +33,24 @@ class SysAuth extends Model {
     }
 
     /**
+     * getInAuth
+     * 获取全部或指定范围的权限数据
+     *
+     * @param $menuId
+     * @return false|static[]
+     */
+    public static function getInAuth($authId)
+    {
+        $data = self::all(function ($query) use ($authId) {
+            if ($authId!=='super') {
+                $query->where('auth_id', 'in', $authId);
+            }
+        });
+
+        return $data;
+    }
+
+    /**
      * treeMenu
      * 生成树状权限数据
      *

@@ -45,7 +45,7 @@
                                     <td class="text-center">{$vo.menu_id}</td>
 
                                     {if condition="$vo['level'] eq 0"}
-                                    <td style="font-weight: bold;">{$vo.menu_name}</td>
+                                    <td class="text-left" style="font-weight: bold;">{$vo.menu_name}</td>
                                     {else/}
                                     <td>├{:str_repeat('─',$vo.level)} {$vo.menu_name}</td>
                                     {/if}

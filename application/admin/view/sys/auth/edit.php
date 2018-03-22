@@ -16,8 +16,8 @@
             <div class="box box-info">
                 <div class="box-header">
                     <ul class="nav nav-pills child_page_menu">
-                        <li role="presentation" {$Request.action==='index' ? 'class="active"' : ''}><a href="{$Request.action==='index' ? 'javascript:void(0);' : url('admin/Auth/index')}">权限管理</a></li>
-                        <li role="presentation" {$Request.action==='add' ? 'class="active"' : ''}><a href="{$Request.action==='add' ? 'javascript:void(0);' : url('admin/Auth/add')}">添加权限</a></li>
+                        <li role="presentation" {$Request.action==='index' ? 'class="active"' : ''}><a href="{$Request.action==='index' ? 'javascript:void(0);' : url('admin/sys.Auth/index')}">权限列表</a></li>
+                        <li role="presentation" {$Request.action==='add' ? 'class="active"' : ''}><a href="{$Request.action==='add' ? 'javascript:void(0);' : url('admin/sys.Auth/add')}">添加权限</a></li>
                         {if condition="$Request.action eq 'edit'"}
                         <li role="presentation" {$Request.action==='edit' ? 'class="active"' : ''}><a href="javascript:void(0);">编辑权限</a></li>
                         {/if}

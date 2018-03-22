@@ -15,6 +15,7 @@ require.config({
         'treegrid.bootstrap3': 'plugins/jquery-treegrid/js/jquery.treegrid.bootstrap3',
         'select2': 'plugins/select2/select2.full.min',
         'icheck': 'plugins/icheck-1.0.2/icheck.min',
+        'ztree': 'plugins/zTree/js/jquery.ztree.all.min',
 
         // 基础-------------------------------
         'adminLTE': '../adminLTE/js/app',
@@ -68,6 +69,12 @@ require.config({
             deps: [
                 'jquery',
                 'css!plugins/icheck-1.0.2/skins/all.css'
+            ]
+        },
+        'ztree': {
+            deps: [
+                'jquery',
+                'css!plugins/zTree/css/zTreeStyle/zTreeStyle.css'
             ]
         },
 

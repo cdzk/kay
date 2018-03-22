@@ -20,8 +20,8 @@ class SysMenu extends Model {
     protected $pk = 'menu_id';
 
     /**
-     * getMenu
-     * 获取全部或指定菜单数据
+     * getInMenu
+     * 获取全部或指定范围的菜单数据
      *
      * @param $menuId
      * @return false|static[]

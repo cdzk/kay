@@ -19,6 +19,7 @@ class Resource extends Controller {
     const ERR_DATA_INVALID = -1;        // 数据处理失败
     const ERR_REQUEST_INVALID = 400;    // 无效请求
     const ERR_FORM_INVALID = 450;       // 表单验证错误信息
+    const ERR_AUTH_INVALID = 401;       // 未授权
 
     /**
      * getBack
