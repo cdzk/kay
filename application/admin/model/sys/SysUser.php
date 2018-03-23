@@ -61,12 +61,13 @@ class SysUser extends Model {
      *
      * @return false|static[]
      */
-    public static function getAllUser()
+    public static function getAllUser($roleId=0)
     {
-        $data = self::all(function ($query) {
+        $data = self::all(function ($query) use ($roleId) {
             $query->alias('u')
                 ->join('sys_role r', 'u.user_roleid=r.role_id', 'left')
                 ->field('u.*,r.role_name');
+            if ($roleId) $query->where('u.user_roleid', $roleId);
         });
 
         return $data;
@@ -153,6 +154,21 @@ class SysUser extends Model {
             return true;
         } catch (\Exception $e) {
             Log::error('删除系统用户【error】：'.$e->getMessage());
+            Db::rollback();
+            return false;
+        }
+    }
+
+    // todo 更新用户密码
+    public static function updatePassword($userId, $password)
+    {
+        Db::startTrans();
+        try {
+            self::where('user_id', $userId)->update(['user_password'=>$password]);
+            Db::commit();
+            return true;
+        } catch (\Exception $e) {
+            Log::error('更新系统用户密码【error】：'.$e->getMessage());
             Db::rollback();
             return false;
         }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>管理系统</title>
+    <title>管理登录</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta name="robots" content="noindex, nofollow">
 
@@ -90,24 +90,14 @@
 <script src="{$Think.config.path.static}js/require.js"></script>
 <script>
     require(['{$Think.config.path.static}js/require.config.js'], function () {
-        require(
-            [
-                'jquery',
-                'bootstrap',
-                'layer',
-                'validform',
-                'admin'
-            ],
-            function ($) {
-                layer.config({
-                    path: '/static/common/plugins/layer/'
+        require(adminScript, function ($) {
+            layerPath();
+
+            $(function () {
+                admin.initValidator(function () {
+                    admin.verifyCode($('#verifyCodeImg'));
                 });
-                $(function () {
-                    admin.initValidator(function () {
-                        admin.verifyCode($('#verifyCodeImg'));
-                    });
-                });
-            }
-        );
+            });
+        });
     });
 </script>

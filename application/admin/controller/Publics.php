@@ -12,6 +12,7 @@
 namespace app\admin\controller;
 
 use think\Controller;
+use think\Cookie;
 use think\Session;
 
 class Publics extends Controller {
@@ -53,7 +54,15 @@ class Publics extends Controller {
     public function logout()
     {
         Session::delete('user', 'admin');
+        Cookie::delete('admin_menu');
 
         $this->success('退出成功', 'admin/Login/index');
+    }
+
+    public function logoutNotTip()
+    {
+        Session::delete('user', 'admin');
+        Cookie::delete('admin_menu');
+        $this->redirect('admin/Login/index');
     }
 }

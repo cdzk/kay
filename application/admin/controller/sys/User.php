@@ -24,9 +24,9 @@ class User extends Init {
      *
      * @return \think\response\View
      */
-    public function index()
+    public function index($roleId=null)
     {
-        $user = SysUser::getAllUser();
+        $user = SysUser::getAllUser($roleId);
         $this->assign('user_list', $user);
 
         return $this->fetch('./sys/user/list');
@@ -41,8 +41,7 @@ class User extends Init {
     public function add()
     {
         if (!request()->isPost()) {
-            $userRole = SysUser::getSingleUser(Init::$user['user_id'])->user_roleid;
-            $role = SysRole::getLimitRole($userRole);
+            $role = SysRole::getLimitRole(Init::$user['user_roleid']);
             $this->assign('role_list', $role);
 
             return $this->fetch('./sys/user/add');
@@ -112,8 +111,7 @@ class User extends Init {
         if (empty($userId)) abort(Resource::ERR_REQUEST_INVALID, '请求错误');
 
         if (!request()->isPost()) {
-            $userRole = SysUser::getSingleUser(Init::$user['user_id'])->user_roleid;
-            $role = SysRole::getLimitRole($userRole);
+            $role = SysRole::getLimitRole(Init::$user['user_roleid']);
             $this->assign('role_list', $role);
 
             $user = SysUser::getSingleUser($userId);
@@ -193,6 +191,27 @@ class User extends Init {
 
         if ($result) {
             return Resource::getBack(Resource::SUCCESS, '操作成功');
+        } else {
+            return Resource::getBack(Resource::ERROR, '操作失败');
+        }
+    }
+
+    // todo 密码修改
+    public function safe()
+    {
+        if (!request()->isPost()) abort(Resource::ERR_REQUEST_INVALID, '请求错误');
+
+        $form = Base::formCheck([
+            ['user_id', 'require|integer|token:__hash__', '用户id不能为空|参数类型错误'],
+            ['user_password', 'require', '参数不能为空|参数类型错误'],
+        ]);
+
+        $result = SysUser::updatePassword($form['user_id'], Base::encryptPassword($form['user_password']));
+
+        if ($result) {
+            return Resource::getBack(Resource::SUCCESS, '密码修改成功，请重新登录', [
+                'jumpUrl' => url('admin/Publics/logoutNotTip')
+            ]);
         } else {
             return Resource::getBack(Resource::ERROR, '操作失败');
         }

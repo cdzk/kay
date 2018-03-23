@@ -38,12 +38,12 @@
                             <div class="Validform_checktip"></div>
                         </div>
                         <div class="form-group">
-                            <label for="role_remake">角色描述</label>
-                            <textarea class="form-control" id="role_remake" name="role_remake" rows="5"
+                            <label for="role_remark">角色描述</label>
+                            <textarea class="form-control" id="role_remark" name="role_remark" rows="5"
                                       datatype="yes_null|*1-80"
                                       nullmsg="角色描述不能为空"
                                       errormsg="角色描述最多允许输入80个字符"
-                                      placeholder="角色描述">{$role.role_remake}</textarea>
+                                      placeholder="角色描述">{$role.role_remark}</textarea>
                             <div class="Validform_checktip">角色描述最多允许输入80个字符</div>
                         </div>
                         <div class="form-group">
@@ -76,45 +76,32 @@
 <script src="{$Think.config.path.static}js/require.js"></script>
 <script>
     require(['{$Think.config.path.static}js/require.config.js'], function () {
-        require(
-            [
-                'jquery',
-                'bootstrap',
-                'layer',
-                'slimscroll',
-                'adminLTE',
-                'admin',
+        adminScript.push('icheck');
 
-                'icheck',
-                'validform',
-            ],
-            function ($) {
-                layer.config({
-                    path: '/static/common/plugins/layer/'
-                });
+        require(adminScript, function ($) {
+            layerPath();
 
-                $(function () {
-                    // 根据窗口大小调整 main区域的高度
+            $(function () {
+                // 根据窗口大小调整 main区域的高度
+                admin.setMainHeight();
+                $(window).resize(function() {
                     admin.setMainHeight();
-                    $(window).resize(function() {
-                        admin.setMainHeight();
-                    });
-
-                    // 左侧菜单滚动条
-                    var $h = $(window).height()-($('.main-footer').height()+parseInt($('.content-wrapper').css('paddingTop'))+30);
-                    $(".sidebar-menu").slimScroll({
-                        height: $h+'px'
-                    });
-
-                    //iCheck for checkbox and radio inputs
-                    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-                        checkboxClass: 'icheckbox_minimal-blue',
-                        radioClass: 'iradio_minimal-blue'
-                    });
-
-                    admin.initValidator();
                 });
-            }
-        );
+
+                // 左侧菜单滚动条
+                var $h = $(window).height()-($('.main-footer').height()+parseInt($('.content-wrapper').css('paddingTop'))+30);
+                $(".sidebar-menu").slimScroll({
+                    height: $h+'px'
+                });
+
+                //iCheck for checkbox and radio inputs
+                $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+                    checkboxClass: 'icheckbox_minimal-blue',
+                    radioClass: 'iradio_minimal-blue'
+                });
+
+                admin.initValidator();
+            });
+        });
     });
 </script>

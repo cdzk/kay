@@ -90,3 +90,10 @@ require.config({
         }
     }
 });
+
+var adminScript = ['jquery', 'bootstrap', 'layer', 'slimscroll', 'adminLTE', 'kay', 'admin', 'validform'];
+var layerPath = function () {
+    layer.config({
+        path: '/static/common/plugins/layer/'
+    });
+}

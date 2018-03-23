@@ -16,6 +16,7 @@ AdminApp.prototype = {
         this.mainWrapper = $('.content-wrapper');
         this.adminMenuHeaderLi = $('#header-menu > li');
         this.adminMenuLeftUl = $('.sidebar-menu');
+        this.userSafe = $('#userSafeModal');
     },
 
     /**
@@ -34,6 +35,19 @@ AdminApp.prototype = {
             var $this = $(this);
             self.getAdminMenu($this);
         });
+
+        // 管理后台 密码修改模态框处理
+        this.userSafe.on('shown.bs.modal', function (event) { // 显示模态框事件
+            $form = $(this).find('#user_safe');
+            self.initValidator('', '', '', $form);
+        });
+        this.userSafe.on('hidden.bs.modal', function (event) { // 隐藏模态框事件
+            $form = $(this).find('#user_safe');
+            $userSafeForm = $form.Validform();
+            $userSafeForm.resetForm();
+            $userSafeForm.resetStatus();
+            $form.find('.Validform_checktip').html('');
+        })
     },
 
     /**
@@ -102,11 +116,13 @@ AdminApp.prototype = {
      * @param {function} c_callbak  请求完成的回调函数
      * @param {function} s_callback 请求成功的回调函数
      * @param {function} e_callback 请求失败的回调函数
+     * @param {dom} domForm 表单元素
      */
-    initValidator: function (c_callback, s_callback, e_callbak) {
+    initValidator: function (c_callback, s_callback, e_callbak, domForm) {
         var _c_callback = arguments[0]?arguments[0]:'',
             _s_callback = arguments[1]?arguments[1]:'',
-            _e_callback = arguments[2]?arguments[2]:'';
+            _e_callback = arguments[2]?arguments[2]:'',
+            $form = arguments[3]?arguments[3]:$('form');
 
         // 判断表单验证提示信息容器是否有内容，并进行样式调整
         function setMsgStyle() {
@@ -122,7 +138,7 @@ AdminApp.prototype = {
         // setMsgStyle();
 
         var waitLoad; // 等待动画调用变量
-        $('form').Validform({
+        $form.Validform({
             tiptype: function(msg,o,cssctl){
                 // setMsgStyle();
                 // 验证提示消息处理

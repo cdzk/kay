@@ -75,6 +75,19 @@ class Init extends Controller {
      */
     protected function menu($menuId)
     {
+        // todo 当前菜单高亮的临时解决方法
+        if (input('?get.mid') && input('?get.mpid')) {
+            $menuParam = [
+                'menu_id' => input('get.mid'),
+                'menu_parentid' => input('get.mpid'),
+            ];
+            $menuParam = serialize($menuParam);
+            cookie('admin_menu', $menuParam, 43200);
+        }
+        $menuParamData = unserialize(cookie('admin_menu'))?:[];
+        $menuParam_mid = $menuParamData?$menuParamData['menu_id']:null;
+        $menuParam_mpid = $menuParamData?$menuParamData['menu_parentid']:null;
+
         // 从数据库读取菜单数据
         $data = SysMenu::getInMenu($menuId);
 
@@ -93,7 +106,7 @@ class Init extends Controller {
                 foreach ($parentVal['children'] as $childKey=>$childVal) {
                     if (isset($childVal['children']) && is_array($childVal['children'])) { // 判断是否有下级菜单
                         // 判断当前的模块是否与菜单的相同并展开当前菜单
-                        if (strcasecmp(request()->module(),$childVal['menu_module'])===0) {
+                        if ($childVal['menu_id']==$menuParam_mpid) {
                             $html .= "<li class=\"active\">";
                         } else {
                             $html .= "<li>";
@@ -106,7 +119,7 @@ class Init extends Controller {
                         $html .= "    </a>";
 
                         // 判断当前的模块是否与菜单的相同并高亮当前菜单
-                        if (strcasecmp(request()->module(),$childVal['menu_module'])===0) {
+                        if ($childVal['menu_id']==$menuParam_mpid) {
                             $html .= "    <ul class=\"treeview-menu menu-open\" style=\"display: block;\">";
                         } else {
                             $html .= "    <ul class=\"treeview-menu\">";
@@ -117,10 +130,10 @@ class Init extends Controller {
                     } else if (empty($childVal['menu_action'])) { // 判断菜单是否包含链接
                         $html .= "<li><a href=\"javascript:void(0);\"><i class=\"fa fa-circle\"></i> {$childVal['menu_name']}</a>";
                     } else {
-                        $url = url($childVal['menu_module'].'/'.$childVal['menu_controller'].'/'.$childVal['menu_action']);
+                        $url = url($childVal['menu_module'].'/'.$childVal['menu_controller'].'/'.$childVal['menu_action'], ['mid'=>$childVal['menu_id'], 'mpid'=>$childVal['menu_parentid']]);
 
                         // 判断当前的控制器是否与菜单的相同并高亮当前菜单
-                        if (strcasecmp(request()->controller(),$childVal['menu_controller'])===0) {
+                        if ($childVal['menu_id']==$menuParam_mid) {
                             $html .= "<li class=\"active\"><a href=\"{$url}\"><i class=\"fa fa-circle\"></i> {$childVal['menu_name']}</a>";
                         } else {
                             $html .= "<li><a href=\"{$url}\"><i class=\"fa fa-circle\"></i> {$childVal['menu_name']}</a>";
@@ -131,7 +144,6 @@ class Init extends Controller {
             }
 
         }
-
         return $html;
     }
 
@@ -144,12 +156,25 @@ class Init extends Controller {
      */
     protected function sub_menu($subMenu)
     {
+        // todo 当前菜单高亮的临时解决方法
+        if (input('?get.mid') && input('?get.mpid')) {
+            $menuParam = [
+                'menu_id' => input('get.mid'),
+                'menu_parentid' => input('get.mpid'),
+            ];
+            $menuParam = serialize($menuParam);
+            cookie('admin_menu', $menuParam, 43200);
+        }
+        $menuParamData = unserialize(cookie('admin_menu'))?:[];
+        $menuParam_mid = $menuParamData?$menuParamData['menu_id']:null;
+        $menuParam_mpid = $menuParamData?$menuParamData['menu_parentid']:null;
+
         $html = '';
         if ($subMenu && is_array($subMenu)) {
             foreach ($subMenu as $key=>$val) {
                 if (isset($val['children']) && is_array($val['children'])) { // 判断是否有下级菜单
                     // 判断当前的模块是否与菜单的相同并展开当前菜单
-                    if (strcasecmp(request()->module(),$val['menu_module'])===0) {
+                    if ($val['menu_id']==$menuParam_mpid) {
                         $html .= "<li class=\"active\">";
                     } else {
                         $html .= "<li>";
@@ -162,7 +187,7 @@ class Init extends Controller {
                     $html .= "    </a>";
 
                     // 判断当前的模块是否与菜单的相同并高亮当前菜单
-                    if (strcasecmp(request()->module(),$val['menu_module'])===0) {
+                    if ($val['menu_id']==$menuParam_mpid) {
                         $html .= "    <ul class=\"treeview-menu menu-open\" style=\"display: block;\">";
                     } else {
                         $html .= "    <ul class=\"treeview-menu\">";
@@ -173,10 +198,10 @@ class Init extends Controller {
                 } else if (empty($val['menu_action'])) { // 判断菜单是否包含链接
                     $html .= "<li><a href=\"javascript:void(0);\"><i class=\"fa fa-circle-o\"></i> {$val['menu_name']}</a>";
                 } else {
-                    $url = url($val['menu_module'].'/'.$val['menu_controller'].'/'.$val['menu_action']);
+                    $url = url($val['menu_module'].'/'.$val['menu_controller'].'/'.$val['menu_action'], ['mid'=>$val['menu_id'], 'mpid'=>$val['menu_parentid']]);
 
                     // 判断当前的控制器是否与菜单的相同并高亮当前菜单
-                    if (strcasecmp(request()->controller(),$val['menu_controller'])===0) {
+                    if ($val['menu_id']==$menuParam_mid) {
                         $html .= "<li class=\"active\"><a href=\"{$url}\"><i class=\"fa fa-circle-o\"></i> {$val['menu_name']}</a>";
                     } else {
                         $html .= "<li><a href=\"{$url}\"><i class=\"fa fa-circle-o\"></i> {$val['menu_name']}</a>";
@@ -263,7 +288,10 @@ class Init extends Controller {
         $currAction = request()->action();
 
         // 对 admin 模块下的 Index 控制器不进行权限控制
-        if ($currModule==='admin' && $currController=='Index') return true;
+        if (
+            ($currModule=='admin' && $currController=='Index') ||
+            ($currModule=='admin' && lcfirst($currController)=='sys.User' && $currAction=='safe')
+        ) return true;
 
         if (array_key_exists($currModule, $authData)) { // 判断是否有模块访问权限
             if (array_key_exists(lcfirst($currController), $authData[$currModule])) { // 判断是否有控制器访问权限

@@ -76,7 +76,7 @@
                 <a href="javascript:void(0);" class="close" data-dismiss="modal" aria-label="Close" role="button"><span aria-hidden="true">&times;</span></a>
                 <h4 class="modal-title" id="userSafeModalLabel">账号安全</h4>
             </div>
-            <form class="form-horizontal" name="user_safe" id="user_safe" method="post" action="{:url('admin/sys.User/account_safe')}">
+            <form class="form-horizontal" name="user_safe" id="user_safe" method="post" action="{:url('admin/sys.User/safe')}">
                 <input type="hidden" name="__hash__" value="{$Request.token.__hash__}">
                 <input type="hidden" name="user_id" value="{$curr_user.user_id}">
                 <div class="modal-body">

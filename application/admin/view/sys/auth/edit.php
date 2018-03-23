@@ -96,41 +96,28 @@
 <script src="{$Think.config.path.static}js/require.js"></script>
 <script>
     require(['{$Think.config.path.static}js/require.config.js'], function () {
-        require(
-            [
-                'jquery',
-                'bootstrap',
-                'layer',
-                'slimscroll',
-                'adminLTE',
-                'admin',
+        adminScript.push('select2');
 
-                'select2',
-                'validform',
-            ],
-            function ($) {
-                layer.config({
-                    path: '/static/common/plugins/layer/'
-                });
+        require(adminScript, function ($) {
+            layerPath();
 
-                $(function () {
-                    // 根据窗口大小调整 main区域的高度
+            $(function () {
+                // 根据窗口大小调整 main区域的高度
+                admin.setMainHeight();
+                $(window).resize(function() {
                     admin.setMainHeight();
-                    $(window).resize(function() {
-                        admin.setMainHeight();
-                    });
-
-                    // 左侧菜单滚动条
-                    var $h = $(window).height()-($('.main-footer').height()+parseInt($('.content-wrapper').css('paddingTop'))+30);
-                    $(".sidebar-menu").slimScroll({
-                        height: $h+'px'
-                    });
-
-                    $(".select2").select2();
-
-                    admin.initValidator();
                 });
-            }
-        );
+
+                // 左侧菜单滚动条
+                var $h = $(window).height()-($('.main-footer').height()+parseInt($('.content-wrapper').css('paddingTop'))+30);
+                $(".sidebar-menu").slimScroll({
+                    height: $h+'px'
+                });
+
+                $(".select2").select2();
+
+                admin.initValidator();
+            });
+        });
     });
 </script>

@@ -51,29 +51,22 @@
 <script src="{$Think.config.path.static}js/require.js"></script>
 <script>
     require(['{$Think.config.path.static}js/require.config.js'], function () {
-        require(
-            [
-                'jquery',
-                'bootstrap',
-                'slimscroll',
-                'adminLTE',
-                'admin',
-            ],
-            function ($) {
-                $(function () {
-                    admin.setMainHeight();
-                    // 根据窗口大小调整 main区域的高度
-                    $(window).resize(function() {
-                        admin.setMainHeight();
-                    });
+        require(adminScript, function ($) {
+            layerPath();
 
-                    // 左侧菜单滚动条
-                    var $h = $(window).height()-($('.main-footer').height()+parseInt($('.content-wrapper').css('paddingTop'))+30);
-                    $(".sidebar-menu").slimScroll({
-                        height: $h+'px'
-                    });
+            $(function () {
+                admin.setMainHeight();
+                // 根据窗口大小调整 main区域的高度
+                $(window).resize(function() {
+                    admin.setMainHeight();
                 });
-            }
-        );
+
+                // 左侧菜单滚动条
+                var $h = $(window).height()-($('.main-footer').height()+parseInt($('.content-wrapper').css('paddingTop'))+30);
+                $(".sidebar-menu").slimScroll({
+                    height: $h+'px'
+                });
+            });
+        });
     });
 </script>

@@ -50,7 +50,7 @@ class Role extends Init {
 
             $data = [
                 'role_name' => $form['role_name'],
-                'role_remake' => $form['role_remake'],
+                'role_remark' => $form['role_remark'],
             ];
 
             $result = SysRole::createRole($data);
@@ -89,7 +89,7 @@ class Role extends Init {
 
             $data = [
                 'role_name' => $form['role_name'],
-                'role_remake' => $form['role_remake'],
+                'role_remark' => $form['role_remark'],
             ];
 
             $result = SysRole::updateRole($roleId, $data);
@@ -145,7 +145,6 @@ class Role extends Init {
 
                 $form = Base::formCheck([
                     ['role_id', 'require|integer', '角色id不能为空|参数类型错误'],
-                    ['checkedAuth', 'require', '权限参数|参数类型错误'],
                 ]);
 
                 $result = SysRole::updateRoleAuth($form['role_id'], ['role_menu'=>$form['checkedAuth']]);

@@ -39,7 +39,7 @@
                             <tr>
                                 <td class="text-center">{$vo.role_id}</td>
                                 <td class="text-left">{$vo.role_name}</td>
-                                <td class="text-left">{$vo.role_remake}</td>
+                                <td class="text-left">{$vo.role_remark}</td>
                                 <td class="text-center">{switch name="vo.role_status"}
                                     {case value="1"}<a class="btn btn-success {$vo.role_id===1 ? 'disabled' : ''}"
                                                        href="javascript:void(0);" role="button"
@@ -57,7 +57,7 @@
                                        href="javascript:void(0);"
                                        role="button"
                                        onclick="setAuth({$vo.role_id}, '#setAuth', '管理权限设置', '#authTree', '{:url(\'admin/sys.Role/system_auth\')}', 'auth_id', 'auth_parentid', 'auth_name');">系统权限</a>
-                                    <a class="btn btn-primary" href="javascript:void(0);" role="button">成员管理</a>
+                                    <a class="btn btn-primary" href="{:url('admin/sys.User/index', ['roleId'=>$vo.role_id, 'mid'=>6, 'mpid'=>4])}" role="button">隶属用户</a>
                                     <a class="btn btn-primary {$vo.role_id===1 ? 'disabled' : ''}" href="{$vo.role_id===1 ? '' : url('admin/sys.Role/edit', ['roleId'=>$vo.role_id])}" role="button">编辑</a>
                                     <a class="btn btn-primary {$vo.role_id===1 ? 'disabled' : ''}" href="javascript:void(0);"
                                        {$vo.role_id===1 ? '' : 'onclick="admin.ajaxDel(\\''.url('admin/sys.Role/del').'\\', \\'role_id='.$vo.role_id.'\\');"'}
@@ -82,39 +82,25 @@
 <script src="{$Think.config.path.static}js/require.js"></script>
 <script>
     require(['{$Think.config.path.static}js/require.config.js'], function () {
-        require(
-            [
-                'jquery',
-                'bootstrap',
-                'layer',
-                'slimscroll',
-                'adminLTE',
-                'kay',
-                'admin',
+        adminScript.push('ztree', 'jquery.form');
 
-                'ztree',
-                'jquery.form',
-            ],
-            function ($) {
-                layer.config({
-                    path: '/static/common/plugins/layer/'
-                });
+        require(adminScript, function ($) {
+            layerPath();
 
-                $(function () {
-                    // 根据窗口大小调整 main区域的高度
+            $(function () {
+                // 根据窗口大小调整 main区域的高度
+                admin.setMainHeight();
+                $(window).resize(function() {
                     admin.setMainHeight();
-                    $(window).resize(function() {
-                        admin.setMainHeight();
-                    });
-
-                    // 左侧菜单滚动条
-                    var $h = $(window).height()-($('.main-footer').height()+parseInt($('.content-wrapper').css('paddingTop'))+30);
-                    $(".sidebar-menu").slimScroll({
-                        height: $h+'px'
-                    });
                 });
-            }
-        );
+
+                // 左侧菜单滚动条
+                var $h = $(window).height()-($('.main-footer').height()+parseInt($('.content-wrapper').css('paddingTop'))+30);
+                $(".sidebar-menu").slimScroll({
+                    height: $h+'px'
+                });
+            });
+        });
     });
 
 
