@@ -39,6 +39,7 @@ class Resource extends Controller {
         ];
 
         // return json($result);
-        return $result;
+        // return $result;
+        exit(json_encode($result, JSON_UNESCAPED_UNICODE));
     }
 }
